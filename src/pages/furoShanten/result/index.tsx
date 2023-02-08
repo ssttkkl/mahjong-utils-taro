@@ -70,9 +70,7 @@ const ShantenWithFuroChanceView: React.FC<{
     <Card title='手牌'
       style={{marginTop: '16px'}}
     >
-      <View>
-        <Tiles tiles={tiles} sorted />
-      </View>
+      <Tiles tiles={tiles} sorted />
       <View>
         <Text>他家打</Text>
         <Tiles tiles={[chanceTile]} />

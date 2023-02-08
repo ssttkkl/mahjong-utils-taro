@@ -5,6 +5,8 @@ export default defineAppConfig({
     'pages/shanten/result/index',
     'pages/furoShanten/index',
     'pages/furoShanten/result/index',
+    'pages/hora/index',
+    'pages/hora/result/index',
     'pages/pointByHanHu/index'
   ],
   window: {

@@ -36,6 +36,11 @@ const Index: React.FC = () => {
           url: '/pages/furoShanten/index',
         })
         break;
+      case 2:
+        Taro.navigateTo({
+          url: '/pages/hora/index',
+        })
+        break;
       case 3:
         Taro.navigateTo({
           url: '/pages/pointByHanHu/index',

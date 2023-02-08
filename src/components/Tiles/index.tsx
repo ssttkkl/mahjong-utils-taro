@@ -1,10 +1,11 @@
 import React from 'react'
-import {Image} from '@tarojs/components'
+import {Image, View} from '@tarojs/components'
 import {type Tile} from 'mahjong-utils'
-import './index.css'
+import {ViewProps} from "@tarojs/components/types/View";
+import './index.scss'
 
-export interface TilesProps {
-  tiles: Tile[]
+export interface TilesProps extends ViewProps {
+  tiles: (Tile | undefined)[]
   sorted?: boolean
   size?: 'large' | 'normal' | 'small'
 }
@@ -13,22 +14,32 @@ export const Tiles: React.FC<TilesProps> = (props) => {
   let tiles_ = props.tiles
   if (props.sorted === true) {
     tiles_ = [...tiles_]
-    tiles_.sort((a, b) => a.compareTo(b))
+    tiles_.sort((a, b) => {
+      if (a && b) {
+        return a.compareTo(b)
+      } else if (a) {
+        return 1
+      } else if (b) {
+        return -1
+      } else {
+        return 0
+      }
+    })
   }
 
   return (
-    <>
-      {tiles_.map(x => {
-        const text = x.toString()
-        return <Image src={require(`../../assets/images/tiles/${text.toLowerCase()}.png`)}
+    <View className='tiles' {...props}>
+      {tiles_.map((x, index) => {
+        const text = x?.toString().toLowerCase() ?? 'back'
+        return <Image src={require(`../../assets/images/tiles/${text}.png`)}
           className={`tile-${props.size ?? 'normal'}`}
           ariaLabel={text}
-          key={text}
+          key={index}
           mode='aspectFit'
           imageMenuPrevent='true'
         />
       })}
-    </>
+    </View>
   )
 }
 

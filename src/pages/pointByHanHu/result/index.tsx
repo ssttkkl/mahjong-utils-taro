@@ -1,5 +1,5 @@
 import React from "react";
-import {Text} from "@tarojs/components";
+import {Text, View} from "@tarojs/components";
 import {Card} from "../../../components/Card";
 
 function getText(params: {
@@ -40,17 +40,14 @@ const PointByHanHuResult: React.FC<{
 }> = ({parent, child}) => {
   return <>
     {parent ?
-      <Card title='亲家和牌时'
-        style={{marginTop: '16px'}}
-      >
+      <Card title='亲家和牌时'>
         <Text>
           {getText({ron: parent.ron, tsumoChild: parent.tsumo, tsumoParent: 0, isParent: true})}
         </Text>
       </Card> : null}
+    <View style={{height:'16px'}} />
     {child ?
-      <Card title='子家和牌时'
-        style={{marginTop: '16px'}}
-      >
+      <Card title='子家和牌时'>
         <Text>
           {getText({isParent: false, ...child})}
         </Text>

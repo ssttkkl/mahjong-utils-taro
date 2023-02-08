@@ -54,9 +54,7 @@ const ShantenWithoutGotView: React.FC<{
                   note={`共${shantenInfo.goodShapeAdvanceNum}张`}
                   style={{ marginTop: '16px' }}
                 >
-                    <Tiles
-                      tiles={shantenInfo.goodShapeAdvance} sorted
-                    />
+                    <Tiles tiles={shantenInfo.goodShapeAdvance} sorted />
                 </Card>
                 <Card title='好型率'
                   style={{ marginTop: '16px' }}

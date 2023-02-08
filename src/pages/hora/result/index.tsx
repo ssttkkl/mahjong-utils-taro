@@ -24,43 +24,49 @@ const HoraView: React.FC<{
   agari: Tile,
   hora: Hora
 }> = ({tiles, agari, hora}) => {
-  const sortedTiles = [...tiles]
-  sortedTiles.splice(sortedTiles.findIndex(x => x === agari), 1)
-  sortedTiles.sort((a, b) => a.compareTo(b))
+  const sortedTiles = useMemo(() => {
+    const sorted = [...tiles]
+    sorted.splice(sortedTiles.findIndex(x => x === agari), 1)
+    sorted.sort((a, b) => a.compareTo(b))
+    return sorted
+  }, [tiles, agari])
 
-  let timesOfYakuman = 0
-  if (hora.hasYakuman) {
-    hora.yaku.forEach(yk => {
-      if (doubleTimesYakuman.find(x => x === yk) !== undefined) {
-        timesOfYakuman += 2
-      } else {
-        timesOfYakuman += 1
+  const [timesOfYakuman, parent, child] = useMemo(() => {
+    let yakuman = 0
+    if (hora.hasYakuman) {
+      hora.yaku.forEach(yk => {
+        if (doubleTimesYakuman.find(x => x === yk) !== undefined) {
+          yakuman += 2
+        } else {
+          yakuman += 1
+        }
+      })
+    }
+
+    let p: { ron: number, tsumo: number } | undefined
+    let c: { ron: number, tsumoParent: number, tsumoChild: number } | undefined
+
+    if (hora.pattern.selfWind === hora.pattern.roundWind) {  // isParent
+      if (yakuman > 0) {
+        p = getParentPointByHanHu(13, 20)
+        p.ron *= yakuman
+        p.tsumo *= yakuman
+      } else if (hora.han > 0) {
+        p = getParentPointByHanHu(hora.han, hora.pattern.hu)
       }
-    })
-  }
-
-  const isParent = hora.pattern.selfWind === hora.pattern.roundWind
-  let parent: { ron: number, tsumo: number } | undefined
-  let child: { ron: number, tsumoParent: number, tsumoChild: number } | undefined
-
-  if (isParent) {
-    if (timesOfYakuman > 0) {
-      parent = getParentPointByHanHu(13, 20)
-      parent.ron *= timesOfYakuman
-      parent.tsumo *= timesOfYakuman
-    } else if (hora.han > 0) {
-      parent = getParentPointByHanHu(hora.han, hora.pattern.hu)
+    } else {
+      if (yakuman > 0) {
+        c = getChildPointByHanHu(13, 20)
+        c.ron *= yakuman
+        c.tsumoParent *= yakuman
+        c.tsumoChild *= yakuman
+      } else if (hora.han > 0) {
+        c = getChildPointByHanHu(hora.han, hora.pattern.hu)
+      }
     }
-  } else {
-    if (timesOfYakuman > 0) {
-      child = getChildPointByHanHu(13, 20)
-      child.ron *= timesOfYakuman
-      child.tsumoParent *= timesOfYakuman
-      child.tsumoChild *= timesOfYakuman
-    } else if (hora.han > 0) {
-      child = getChildPointByHanHu(hora.han, hora.pattern.hu)
-    }
-  }
+
+    return [yakuman, p, c]
+  }, [hora])
 
   return <>
     <Card title='手牌'

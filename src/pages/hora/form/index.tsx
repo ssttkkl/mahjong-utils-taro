@@ -19,6 +19,11 @@ export interface HoraFormValues {
   extraYaku: ExtraYaku[]
 }
 
+const tsumoOptions = [
+  {label: '自摸', value: "true"},
+  {label: '荣和', value: "false"}
+]
+
 const windOptions = [
   {label: '东', value: Wind.East},
   {label: '南', value: Wind.South},
@@ -36,16 +41,16 @@ export const HoraForm: React.FC<{
 }> = (props) => {
   const [showToast] = useToast()
 
-  const [tilesValue, setTilesValue] = useState("12233466m111z")
+  const [tilesValue, setTilesValue] = useState("")
   const [tilesError, setTilesError] = useState(false)
 
-  const [agariValue, setAgariValue] = useState("1z")
+  const [agariValue, setAgariValue] = useState("")
   const [agariError, setAgariError] = useState(false)
 
-  const [furoValues, setFuroValues] = useState<string[]>(["789p"])
-  const [furoErrors, setFuroErrors] = useState<boolean[]>([false])
+  const [furoValues, setFuroValues] = useState<string[]>([])
+  const [furoErrors, setFuroErrors] = useState<boolean[]>([])
 
-  const [doraValue, setDoraValue] = useState("0")
+  const [doraValue, setDoraValue] = useState("")
   const [doraError, setDoraError] = useState(false)
 
   const [tsumo, setTsumo] = useState(true)
@@ -111,17 +116,17 @@ export const HoraForm: React.FC<{
     if (valid && (tiles?.length ?? 0) + furo.length * 3 !== 14) {
       showToast({
         title: '手牌（包括副露）必须由14张牌组成',
-        icon:'none'
+        icon: 'none'
       }).catch(e => console.error(e))
-      valid = false
+      return
     }
 
     if (valid && tiles?.find(x => x === agari) === undefined) {
       showToast({
         title: '所和的牌必须包含在手牌中',
-        icon:'none'
+        icon: 'none'
       }).catch(e => console.error(e))
-      valid = false
+      return
     }
 
     if (valid) {
@@ -135,6 +140,9 @@ export const HoraForm: React.FC<{
         roundWind: windOptions[roundWindValue].value,
         extraYaku
       })
+    } else {
+      showToast({title: '请检查输入', icon: 'error'})
+        .catch(e => console.error(e))
     }
   }
 
@@ -148,7 +156,6 @@ export const HoraForm: React.FC<{
         value={tilesValue}
         onChange={v => setTilesValue(v.toString())}
         error={tilesError}
-        clear
         required
       />
       <AtInput
@@ -159,7 +166,6 @@ export const HoraForm: React.FC<{
         value={agariValue}
         onChange={v => setAgariValue(v.toString())}
         error={agariError}
-        clear
         required
       />
       <AtInput
@@ -169,7 +175,6 @@ export const HoraForm: React.FC<{
         value={doraValue}
         onChange={v => setDoraValue(v.toString())}
         error={doraError}
-        clear
       />
       <Picker
         mode='selector'
@@ -228,10 +233,7 @@ export const HoraForm: React.FC<{
       </Panel>
       <Panel title='自摸/荣和'>
         <AtRadio
-          options={[
-            {label: '自摸', value: "true"},
-            {label: '荣和', value: "false"}
-          ]}
+          options={tsumoOptions}
           value={tsumo ? 'true' : 'false'}
           onClick={v => setTsumo(v === 'true')}
         />

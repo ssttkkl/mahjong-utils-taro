@@ -1,6 +1,7 @@
 import {Tile} from "mahjong-utils"
 import React, {useState} from "react"
 import {AtButton, AtForm, AtInput, AtSwitch} from "taro-ui"
+import {useToast} from "taro-hooks";
 import './index.scss'
 
 export interface FuroShantenFormValues {
@@ -12,10 +13,12 @@ export interface FuroShantenFormValues {
 export const FuroShantenForm: React.FC<{
   onSubmit: (values: FuroShantenFormValues) => Promise<void>
 }> = (props) => {
-  const [tilesValue, setTilesValue] = useState("3456778m123457p")
+  const [showToast] = useToast()
+
+  const [tilesValue, setTilesValue] = useState("")
   const [tilesError, setTilesError] = useState(false)
 
-  const [chanceTileValue, setChanceTileValue] = useState("7m")
+  const [chanceTileValue, setChanceTileValue] = useState("")
   const [chanceTilesError, setChanceTilesError] = useState(false)
 
   const [allowChi, setAllowChi] = useState(true)
@@ -47,6 +50,9 @@ export const FuroShantenForm: React.FC<{
         chanceTile: chanceTileValue,
         allowChi
       })
+    } else {
+      showToast({title: '请检查输入', icon: 'error'})
+        .catch(e => console.error(e))
     }
   }
 
@@ -60,7 +66,6 @@ export const FuroShantenForm: React.FC<{
         value={tilesValue}
         onChange={v => setTilesValue(v.toString())}
         error={tilesError}
-        clear
         required
       />
       <AtInput
@@ -71,7 +76,6 @@ export const FuroShantenForm: React.FC<{
         value={chanceTileValue}
         onChange={v => setChanceTileValue(v.toString())}
         error={chanceTilesError}
-        clear
         required
       />
       <AtSwitch
@@ -79,7 +83,7 @@ export const FuroShantenForm: React.FC<{
         checked={allowChi}
         onChange={v => setAllowChi(v)}
       />
-      <AtButton formType='submit'>提交</AtButton>
+      <AtButton formType='submit' type='primary'>提交</AtButton>
     </AtForm>
   )
 }

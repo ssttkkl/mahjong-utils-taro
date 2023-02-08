@@ -1,68 +1,74 @@
 import {Tile} from "mahjong-utils"
 import React, {useState} from "react"
 import {AtButton, AtForm, AtInput, AtRadio} from "taro-ui"
+import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel"
 
 export type ShantenMode = 'union' | 'regular' | 'chitoi' | 'kokushi'
 
 export interface ShantenFormValues {
-    tiles: string,
-    mode: ShantenMode
+  tiles: string,
+  mode: ShantenMode
 }
 
+const modeOptions = [
+  {label: '一般形', value: 'union', desc: '包括标准形、七对子与国士无双和牌的情况（默认）'},
+  {label: '标准形', value: 'regular', desc: '只考虑四面子+雀头和牌的情况'},
+  {label: '七对子', value: 'chitoi', desc: '只考虑七种对子和牌的情况'},
+  {label: '国士无双', value: 'kokushi', desc: '只考虑13张幺九牌其中1种一对，剩下12种各一张和牌的情况'}
+]
+
 export const ShantenForm: React.FC<{
-    onSubmit: (values: ShantenFormValues) => Promise<void>
+  onSubmit: (values: ShantenFormValues) => Promise<void>
 }> = (props) => {
-    const [tilesValue, setTilesValue] = useState("34568m235p688s")
-    const [tilesError, setTilesError] = useState(false)
+  const [showToast] = useToast()
+  const [tilesValue, setTilesValue] = useState("")
+  const [tilesError, setTilesError] = useState(false)
 
-    const [mode, setMode] = useState<ShantenMode>('union')
+  const [mode, setMode] = useState<ShantenMode>('union')
 
-    const onSubmit = async () => {
-        let valid = true
+  const onSubmit = async () => {
+    let valid = true
 
-        // validate tiles
-        const tiles = Tile.parseTiles(tilesValue)
-        if (tiles === undefined || tiles.length === 0) {
-            setTilesError(true)
-            valid = false
-        }
-
-        if (valid) {
-            await props.onSubmit({
-                tiles: tilesValue,
-                mode
-            })
-        }
+    // validate tiles
+    const tiles = Tile.parseTiles(tilesValue)
+    if (tiles === undefined || tiles.length === 0) {
+      setTilesError(true)
+      valid = false
     }
 
-    return (
-        <AtForm onSubmit={onSubmit}>
-            <AtInput
-              name='tiles'
-              title='手牌'
-              type='text'
-              placeholder='示例：34568m235p688s'
-              value={tilesValue}
-              onChange={v => setTilesValue(v.toString())}
-              error={tilesError}
-              clear
-              required
-            />
-            <Panel title='模式'>
-                <AtRadio
-                  options={[
-                        { label: '一般形', value: 'union', desc: '包括标准形、七对子与国士无双和牌的情况（默认）' },
-                        { label: '标准形', value: 'regular', desc: '只考虑四面子+雀头和牌的情况' },
-                        { label: '七对子', value: 'chitoi', desc: '只考虑七种对子和牌的情况' },
-                        { label: '国士无双', value: 'kokushi', desc: '只考虑13张幺九牌其中1种一对，剩下12种各一张和牌的情况' }
-                    ]}
-                  value={mode}
-                  onClick={v => setMode(v)}
-                />
-            </Panel>
-            <AtButton formType='submit'>提交</AtButton>
-        </AtForm>
-    )
+    if (valid) {
+      await props.onSubmit({
+        tiles: tilesValue,
+        mode
+      })
+    } else {
+      showToast({title: '请检查输入', icon: 'error'})
+        .catch(e => console.error(e))
+    }
+  }
+
+  return (
+    <AtForm onSubmit={onSubmit}>
+      <AtInput
+        name='tiles'
+        title='手牌'
+        type='text'
+        placeholder='示例：34568m235p688s'
+        value={tilesValue}
+        onChange={v => setTilesValue(v.toString())}
+        error={tilesError}
+        required
+      />
+      <Panel title='模式'>
+        <AtRadio
+          options={modeOptions}
+          value={mode}
+          onClick={v => setMode(v)}
+        />
+      </Panel>
+      <AtButton formType='submit' type='primary'>计算</AtButton>
+    </AtForm>
+  )
 }

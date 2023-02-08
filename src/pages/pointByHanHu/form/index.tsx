@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import {AtButton, AtForm, AtInput} from "taro-ui"
+import {useToast} from "taro-hooks";
 import './index.scss'
 
 export interface PointByHanHuFormValues {
@@ -10,10 +11,11 @@ export interface PointByHanHuFormValues {
 export const PointByHanHuForm: React.FC<{
   onSubmit: (values: PointByHanHuFormValues) => Promise<void>
 }> = (props) => {
-  const [hanValue, setHanValue] = useState("3")
+  const [showToast] = useToast()
+  const [hanValue, setHanValue] = useState("")
   const [hanError, setHanError] = useState(false)
 
-  const [huValue, setHuValue] = useState("40")
+  const [huValue, setHuValue] = useState("")
   const [huError, setHuError] = useState(false)
 
   const onSubmit = async () => {
@@ -44,6 +46,9 @@ export const PointByHanHuForm: React.FC<{
       await props.onSubmit({
         han, hu
       })
+    } else {
+      showToast({title: '请检查输入', icon: 'error'})
+        .catch(e => console.error(e))
     }
   }
 
@@ -57,7 +62,6 @@ export const PointByHanHuForm: React.FC<{
         value={hanValue}
         onChange={v => setHanValue(v.toString())}
         error={hanError}
-        clear
         required
       />
       <AtInput
@@ -68,10 +72,9 @@ export const PointByHanHuForm: React.FC<{
         value={huValue}
         onChange={v => setHuValue(v.toString())}
         error={huError}
-        clear
         required
       />
-      <AtButton formType='submit'>提交</AtButton>
+      <AtButton formType='submit' type='primary'>计算</AtButton>
     </AtForm>
   )
 }

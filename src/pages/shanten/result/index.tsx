@@ -14,6 +14,7 @@ import {Card} from "../../../components/Card"
 import {Tiles} from "../../../components/Tiles"
 import {ActionShanten, ActionShantenTable} from "../../../components/ActionShantenTable"
 import './index.scss'
+import {Panel} from "../../../components/Panel";
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -71,57 +72,42 @@ const ShantenWithGotView: React.FC<{
   tiles: Tile[],
   shantenInfo: ShantenWithGot
 }> = ({tiles, shantenInfo}) => {
-  const {
-    discardToAdvance,
-    ankanToAdvance
-  } = shantenInfo
-  const grouped = new Map<number, Map<['discard' | 'ankan', Tile], ShantenWithoutGot>>()
-  discardToAdvance.forEach((shantenAfterDiscard, discard) => {
-    if (!grouped.has(shantenAfterDiscard.shantenNum)) {
-      grouped.set(shantenAfterDiscard.shantenNum, new Map())
-    }
-    grouped.get(shantenAfterDiscard.shantenNum)?.set(['discard', discard], shantenAfterDiscard)
+  const orderedData = useMemo<[number, ActionShanten[]][]>(() => {
+    const {
+      discardToAdvance,
+      ankanToAdvance
+    } = shantenInfo
+    const groupedShanten = new Map<number, Map<['discard' | 'ankan', Tile], ShantenWithoutGot>>()
 
-    shantenAfterDiscard.advance.sort((a, b) => a.compareTo(b))
-    if (shantenAfterDiscard.shantenNum === 1) {
-      shantenAfterDiscard.goodShapeAdvance?.sort((a, b) => a.compareTo(b))
-    }
-  })
-
-  ankanToAdvance.forEach((shantenAfterAnkan, ankan) => {
-    if (!grouped.has(shantenAfterAnkan.shantenNum)) {
-      grouped.set(shantenAfterAnkan.shantenNum, new Map())
-    }
-    grouped.get(shantenAfterAnkan.shantenNum)?.set(['ankan', ankan], shantenAfterAnkan)
-
-    shantenAfterAnkan.advance.sort((a, b) => a.compareTo(b))
-    if (shantenAfterAnkan.shantenNum === 1) {
-      shantenAfterAnkan.goodShapeAdvance?.sort((a, b) => a.compareTo(b))
-    }
-  })
-
-  const ordered = [...grouped.entries()]
-  ordered.sort((a, b) => a[0] - b[0])
-
-  return <>
-    <Card title='手牌'
-      note='已摸牌'
-      style={{marginTop: '16px'}}
-    >
-      <Tiles tiles={tiles} sorted />
-    </Card>
-    <Card title='向听数'
-      style={{marginTop: '16px'}}
-    >
-      {getShantenText(shantenInfo.shantenNum)}
-    </Card>
-    {ordered.map(([shantenNum, infos]) => {
-      let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`
-      if (shantenNum !== shantenInfo.shantenNum) {
-        title += '（退向）'
+    discardToAdvance.forEach((shantenAfterDiscard, discard) => {
+      if (!groupedShanten.has(shantenAfterDiscard.shantenNum)) {
+        groupedShanten.set(shantenAfterDiscard.shantenNum, new Map())
       }
+      groupedShanten.get(shantenAfterDiscard.shantenNum)?.set(['discard', discard], shantenAfterDiscard)
 
-      const curGroup = [...infos.entries()]
+      shantenAfterDiscard.advance.sort((a, b) => a.compareTo(b))
+      if (shantenAfterDiscard.shantenNum === 1) {
+        shantenAfterDiscard.goodShapeAdvance?.sort((a, b) => a.compareTo(b))
+      }
+    })
+
+    ankanToAdvance.forEach((shantenAfterAnkan, ankan) => {
+      if (!groupedShanten.has(shantenAfterAnkan.shantenNum)) {
+        groupedShanten.set(shantenAfterAnkan.shantenNum, new Map())
+      }
+      groupedShanten.get(shantenAfterAnkan.shantenNum)?.set(['ankan', ankan], shantenAfterAnkan)
+
+      shantenAfterAnkan.advance.sort((a, b) => a.compareTo(b))
+      if (shantenAfterAnkan.shantenNum === 1) {
+        shantenAfterAnkan.goodShapeAdvance?.sort((a, b) => a.compareTo(b))
+      }
+    })
+
+    const orderedShantenGroups = [...groupedShanten.entries()]
+    orderedShantenGroups.sort((a, b) => a[0] - b[0])
+
+    return orderedShantenGroups.map(([shantenNum, group]) => {
+      const curGroup = [...group.entries()]
       curGroup.sort((a, b) => {
         if (a[1].advanceNum !== b[1].advanceNum) {
           return a[1].advanceNum - b[1].advanceNum
@@ -145,13 +131,36 @@ const ShantenWithGotView: React.FC<{
         }
       })
 
+      return [shantenNum, data]
+    })
+  }, [shantenInfo])
+
+  return <>
+    <Card title='手牌'
+      note='已摸牌'
+      style={{marginTop: '16px'}}
+    >
+      <Tiles tiles={tiles} sorted />
+    </Card>
+    <Card title='向听数'
+      style={{marginTop: '16px'}}
+    >
+      {getShantenText(shantenInfo.shantenNum)}
+    </Card>
+    {orderedData.map(([shantenNum, data]) => {
+      let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`
+      if (shantenNum !== shantenInfo.shantenNum) {
+        title += '（退向）'
+      }
+
       return (
-        <ActionShantenTable key={shantenNum}
-          title={title}
-          data={data}
-          showGoodShapeInfo={shantenNum === 1}
-          style={{'margin': '0 12px'}}
-        />
+        <Panel title={title} key={shantenNum}>
+          <ActionShantenTable
+            data={data}
+            showGoodShapeInfo={shantenNum === 1}
+            style={{'margin': '0 12px'}}
+          />
+        </Panel>
       )
     })}
     <View style={{height: '16px'}} />

@@ -13,6 +13,7 @@ import {Card} from "../../../components/Card"
 import {Tiles} from "../../../components/Tiles"
 import {ActionShanten, ActionShantenTable} from "../../../components/ActionShantenTable"
 import './index.scss'
+import {Panel} from "../../../components/Panel";
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -30,71 +31,52 @@ const ShantenWithFuroChanceView: React.FC<{
   chanceTile: Tile,
   shantenInfo: ShantenWithFuroChance
 }> = ({tiles, chanceTile, shantenInfo}) => {
-  const {
-    pass,
-    chi,
-    pon,
-    minkan
-  } = shantenInfo
-  const grouped = new Map<number, Map<['pass'] | ['minkan'] | ['pon', Tile] | ['chi', Tatsu, Tile], ShantenWithoutGot>>()
+  const orderedData = useMemo<[number, ActionShanten[]][]>(() => {
+    const {
+      pass,
+      chi,
+      pon,
+      minkan
+    } = shantenInfo
+    const groupedShanten = new Map<number, Map<['pass'] | ['minkan'] | ['pon', Tile] | ['chi', Tatsu, Tile], ShantenWithoutGot>>()
 
-  if (pass !== undefined) {
-    if (!grouped.has(pass.shantenNum)) {
-      grouped.set(pass.shantenNum, new Map())
+    if (pass !== undefined) {
+      if (!groupedShanten.has(pass.shantenNum)) {
+        groupedShanten.set(pass.shantenNum, new Map())
+      }
+      groupedShanten.get(pass.shantenNum)?.set(['pass'], pass)
     }
-    grouped.get(pass.shantenNum)?.set(['pass'], pass)
-  }
 
-  if (minkan !== undefined) {
-    if (!grouped.has(minkan.shantenNum)) {
-      grouped.set(minkan.shantenNum, new Map())
+    if (minkan !== undefined) {
+      if (!groupedShanten.has(minkan.shantenNum)) {
+        groupedShanten.set(minkan.shantenNum, new Map())
+      }
+      groupedShanten.get(minkan.shantenNum)?.set(['minkan'], minkan)
     }
-    grouped.get(minkan.shantenNum)?.set(['minkan'], minkan)
-  }
 
-  if (pon !== undefined) {
-    pon.discardToAdvance.forEach((shantenAfterPonDiscard, discard) => {
-      if (!grouped.has(shantenAfterPonDiscard.shantenNum)) {
-        grouped.set(shantenAfterPonDiscard.shantenNum, new Map())
-      }
-      grouped.get(shantenAfterPonDiscard.shantenNum)?.set(['pon', discard], shantenAfterPonDiscard)
+    if (pon !== undefined) {
+      pon.discardToAdvance.forEach((shantenAfterPonDiscard, discard) => {
+        if (!groupedShanten.has(shantenAfterPonDiscard.shantenNum)) {
+          groupedShanten.set(shantenAfterPonDiscard.shantenNum, new Map())
+        }
+        groupedShanten.get(shantenAfterPonDiscard.shantenNum)?.set(['pon', discard], shantenAfterPonDiscard)
+      })
+    }
+
+    chi.forEach(([tatsu, shantenAfterChi]) => {
+      shantenAfterChi.discardToAdvance.forEach((shantenAfterChiDiscard, discard) => {
+        if (!groupedShanten.has(shantenAfterChiDiscard.shantenNum)) {
+          groupedShanten.set(shantenAfterChiDiscard.shantenNum, new Map())
+        }
+        groupedShanten.get(shantenAfterChiDiscard.shantenNum)?.set(['chi', tatsu, discard], shantenAfterChiDiscard)
+      })
     })
-  }
 
-  chi.forEach(([tatsu, shantenAfterChi]) => {
-    shantenAfterChi.discardToAdvance.forEach((shantenAfterChiDiscard, discard) => {
-      if (!grouped.has(shantenAfterChiDiscard.shantenNum)) {
-        grouped.set(shantenAfterChiDiscard.shantenNum, new Map())
-      }
-      grouped.get(shantenAfterChiDiscard.shantenNum)?.set(['chi', tatsu, discard], shantenAfterChiDiscard)
-    })
-  })
+    const orderedShantenGroups = [...groupedShanten.entries()]
+    orderedShantenGroups.sort((a, b) => a[0] - b[0])
 
-  const ordered = [...grouped.entries()]
-  ordered.sort((a, b) => a[0] - b[0])
-
-  return <>
-    <Card title='手牌'
-      style={{marginTop: '16px'}}
-    >
-      <Tiles tiles={tiles} sorted />
-      <View>
-        <Text>他家打</Text>
-        <Tiles tiles={[chanceTile]} />
-      </View>
-    </Card>
-    <Card title='向听数'
-      style={{marginTop: '16px'}}
-    >
-      {getShantenText(shantenInfo.shantenNum)}
-    </Card>
-    {ordered.map(([shantenNum, infos]) => {
-      let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`
-      if (shantenNum !== shantenInfo.shantenNum) {
-        title += '（退向）'
-      }
-
-      const curGroup = [...infos.entries()]
+    return orderedShantenGroups.map(([shantenNum, group]) => {
+      const curGroup = [...group.entries()]
       curGroup.sort((a, b) => {
         if (a[1].advanceNum !== b[1].advanceNum) {
           return a[1].advanceNum - b[1].advanceNum
@@ -133,16 +115,42 @@ const ShantenWithFuroChanceView: React.FC<{
         }
       })
 
-      return (
-        <ActionShantenTable key={shantenNum}
-          title={title}
-          data={data}
-          showGoodShapeInfo={shantenNum === 1}
-          style={{'margin': '0 12px'}}
-        />
-      )
+      return [shantenNum, data]
     })
-    }
+  }, [shantenInfo])
+
+
+  return <>
+    <Card title='手牌'
+      style={{marginTop: '16px'}}
+    >
+      <Tiles tiles={tiles} sorted />
+      <View>
+        <Text>他家打</Text>
+        <Tiles tiles={[chanceTile]} />
+      </View>
+    </Card>
+    <Card title='向听数'
+      style={{marginTop: '16px'}}
+    >
+      {getShantenText(shantenInfo.shantenNum)}
+    </Card>
+    {orderedData.map(([shantenNum, data]) => {
+      let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`
+      if (shantenNum !== shantenInfo.shantenNum) {
+        title += '（退向）'
+      }
+
+      return (
+        <Panel title={title} key={shantenNum}>
+          <ActionShantenTable
+            data={data}
+            showGoodShapeInfo={shantenNum === 1}
+            style={{'margin': '0 12px'}}
+          />
+        </Panel>
+      )
+    })}
     <View style={{height: '16px'}} />
   </>
 }

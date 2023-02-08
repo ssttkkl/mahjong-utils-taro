@@ -41,6 +41,7 @@ const PointByHanHuPage: React.FC = () => {
   return (
     <View className='index'>
       <PointByHanHuForm onSubmit={onSubmit} />
+      <View style={{height:'16px'}} />
       <PointByHanHuResult parent={parentResult} child={childResult} />
     </View>
   )

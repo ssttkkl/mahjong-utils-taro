@@ -1,5 +1,12 @@
 import {Text, View} from "@tarojs/components"
-import {furoChanceShanten, ShantenWithFuroChance, ShantenWithoutGot, Tatsu, Tile} from "mahjong-utils"
+import {
+  furoChanceShanten,
+  FuroChanceShantenResult,
+  ShantenWithFuroChance,
+  ShantenWithoutGot,
+  Tatsu,
+  Tile
+} from "mahjong-utils"
 import React, {useMemo} from "react"
 import {useRouter} from "taro-hooks"
 import {Card} from "../../../components/Card"
@@ -142,24 +149,27 @@ const ShantenWithFuroChanceView: React.FC<{
 
 const FuroShantenResult: React.FC = () => {
   const [{params}] = useRouter()
-  const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
-  const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined
-  const allowChi = params.allowChi === 'true'
 
-  const result = useMemo(() => {
+  const result = useMemo<[Tile[], Tile, FuroChanceShantenResult] | undefined>(() => {
+    const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
+    const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined
+    const allowChi = params.allowChi === 'true'
     if (tiles && chanceTile) {
-      return furoChanceShanten(tiles, chanceTile, {allowChi})
+      console.log('invoke furoChanceShanten')
+      const shantenResult = furoChanceShanten(tiles, chanceTile, {allowChi})
+      return [tiles, chanceTile, shantenResult]
     }
     return undefined
-  }, [tiles, chanceTile, allowChi])
+  }, [params])
 
   if (result === undefined) {
     return <Text>计算中</Text>
   } else {
+    const [tiles, chanceTile, shantenResult] = result
     return <ShantenWithFuroChanceView
-      tiles={tiles!}
-      chanceTile={chanceTile!}
-      shantenInfo={result.shantenInfo}
+      tiles={tiles}
+      chanceTile={chanceTile}
+      shantenInfo={shantenResult.shantenInfo}
     />
   }
 }

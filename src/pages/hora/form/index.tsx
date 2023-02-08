@@ -3,10 +3,10 @@ import React, {useState} from "react"
 import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
 import {ExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Picker, View} from "@tarojs/components";
+import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel";
 import {allExtraYakus, yakuName} from "../../../utils/yaku";
-import {useToast} from "taro-hooks";
 
 export interface HoraFormValues {
   tiles: string
@@ -244,7 +244,7 @@ export const HoraForm: React.FC<{
           onChange={setExtraYaku}
         />
       </Panel>
-      <AtButton formType='submit' type='primary' onClick={onSubmit}>计算</AtButton>
+      <AtButton formType='submit' type='primary'>计算</AtButton>
     </AtForm>
   )
 }

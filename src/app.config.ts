@@ -4,7 +4,8 @@ export default defineAppConfig({
     'pages/shanten/index',
     'pages/shanten/result/index',
     'pages/furoShanten/index',
-    'pages/furoShanten/result/index'
+    'pages/furoShanten/result/index',
+    'pages/pointByHanHu/index'
   ],
   window: {
     backgroundTextStyle: 'light',

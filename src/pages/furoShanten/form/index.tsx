@@ -20,7 +20,7 @@ export const FuroShantenForm: React.FC<{
 
   const [allowChi, setAllowChi] = useState(true)
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     let valid = true
 
     // validate tiles
@@ -42,7 +42,7 @@ export const FuroShantenForm: React.FC<{
     }
 
     if (valid) {
-      props.onSubmit({
+      await props.onSubmit({
         tiles: tilesValue,
         chanceTile: chanceTileValue,
         allowChi

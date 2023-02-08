@@ -2,9 +2,10 @@ module.exports = {
   env: {
     NODE_ENV: '"development"'
   },
-  defineConstants: {
+  defineConstants: {},
+  mini: {
+    debugReact: true
   },
-  mini: {},
   h5: {
     esnextModules: ['taro-ui']
   }

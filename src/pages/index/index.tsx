@@ -24,7 +24,7 @@ const Index: React.FC = () => {
     }
   ]
 
-  const onClick = (item, index) => {
+  const onClick = (_, index) => {
     switch (index) {
       case 0:
         Taro.navigateTo({
@@ -34,6 +34,11 @@ const Index: React.FC = () => {
       case 1:
         Taro.navigateTo({
           url: '/pages/furoShanten/index',
+        })
+        break;
+      case 3:
+        Taro.navigateTo({
+          url: '/pages/pointByHanHu/index',
         })
         break;
     }

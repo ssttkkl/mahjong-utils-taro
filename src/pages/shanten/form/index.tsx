@@ -19,7 +19,7 @@ export const ShantenForm: React.FC<{
 
     const [mode, setMode] = useState<ShantenMode>('union')
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         let valid = true
 
         // validate tiles
@@ -30,7 +30,7 @@ export const ShantenForm: React.FC<{
         }
 
         if (valid) {
-            props.onSubmit({
+            await props.onSubmit({
                 tiles: tilesValue,
                 mode
             })

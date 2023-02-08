@@ -1,6 +1,7 @@
 import {View} from "@tarojs/components";
 import {AtCardProps} from "taro-ui/types/card";
 import {AtCard} from 'taro-ui'
+import "taro-ui/dist/style/components/card.scss";
 
 export type CardProps = AtCardProps
 

@@ -17,9 +17,7 @@ import {Tiles} from "../../../components/Tiles";
 import {Card} from "../../../components/Card";
 import {doubleTimesYakuman, yakuName} from "../../../utils/yaku";
 import PointByHanHuResult from "../../pointByHanHu/result";
-import {getMentsuTiles} from "../../../utils/mentsu";
 import './index.scss'
-import {getFuroTiles} from "../../../utils/furo";
 
 const HoraView: React.FC<{
   tiles: Tile[],
@@ -78,7 +76,7 @@ const HoraView: React.FC<{
 
             return <>
               {furo.map(x => {
-                let furoTiles: (Tile | undefined)[] = getFuroTiles(x)
+                let furoTiles: (Tile | undefined)[] = x.tiles
                 if (x.type === FuroType.Ankan) {
                   furoTiles = [undefined, furoTiles[1], furoTiles[2], undefined]
                 }
@@ -104,7 +102,7 @@ const HoraView: React.FC<{
           <View>
             面子：
             {menzenMentsu.map(mentsu => (
-              <Tiles tiles={getMentsuTiles(mentsu)}
+              <Tiles tiles={mentsu.tiles}
                 key={`${mentsu.type}-${mentsu.tile.toString()}`}
                 style={{marginInlineEnd: '8px'}}
               />
@@ -114,7 +112,7 @@ const HoraView: React.FC<{
             <View>
               副露：
               {furo.map(x => {
-                let furoTiles: (Tile | undefined)[] = getFuroTiles(x)
+                let furoTiles: (Tile | undefined)[] = x.tiles
                 if (x.type === FuroType.Ankan) {
                   furoTiles = [undefined, furoTiles[1], furoTiles[2], undefined]
                 }
@@ -169,6 +167,7 @@ const HoraResult: React.FC = () => {
       if (tiles !== undefined && agari !== undefined) {
         console.log("invoke buildHora")
         const hora = buildHora({tiles, agari, furo, tsumo, dora, selfWind, roundWind, extraYaku})
+        console.log("result", hora)
         return [tiles, agari, hora]
       } else {
         return undefined

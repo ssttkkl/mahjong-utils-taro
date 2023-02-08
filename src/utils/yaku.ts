@@ -1,5 +1,3 @@
-import {ExtraYaku} from "mahjong-utils/dist/hora/yaku";
-
 export const yakuName = {
   Tsumo: '门清自摸',
   Pinhu: '平和',
@@ -50,16 +48,4 @@ export const yakuName = {
 
 export const doubleTimesYakuman = [
   'Daisushi', 'ChurenNineWaiting', 'SuankoTanki', 'KokushiThirteenWaiting'
-]
-
-export const allExtraYakus: ExtraYaku[] = [
-  'Richi',
-  'Ippatsu',
-  'Rinshan',
-  'Chankan',
-  'Haitei',
-  'Houtei',
-  'WRichi',
-  'Tenhou',
-  'Chihou'
 ]

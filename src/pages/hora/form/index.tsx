@@ -1,12 +1,12 @@
 import {Furo, Tile, Wind} from "mahjong-utils"
 import React, {useState} from "react"
 import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
-import {ExtraYaku} from "mahjong-utils/dist/hora/yaku";
+import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Picker, View} from "@tarojs/components";
 import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel";
-import {allExtraYakus, yakuName} from "../../../utils/yaku";
+import {yakuName} from "../../../utils/yaku";
 
 export interface HoraFormValues {
   tiles: string
@@ -26,7 +26,7 @@ const windOptions = [
   {label: '北', value: Wind.North}
 ]
 
-const extraYakuOptions = allExtraYakus.map(x => ({
+const extraYakuOptions = getAllExtraYaku().map(x => ({
   value: x,
   label: yakuName[x]
 }))

@@ -57,7 +57,7 @@ export const ActionShantenTable: React.FC<ActionShantenTableProps> = (props) => 
       dataIndex: 'advance',
       render: (advance: Tile[], record: ActionShanten) => (
         <View style={{flexDirection: 'column'}}>
-          <Tiles tiles={advance} size={tilesSize} sorted />
+          <Tiles tiles={advance} size={tilesSize} sorted style={{display: 'block'}} />
           <Text>共{record.advanceNum}张</Text>
         </View>
       )
@@ -70,7 +70,7 @@ export const ActionShantenTable: React.FC<ActionShantenTableProps> = (props) => 
         if (goodShapeAdvance !== undefined) {
           return (
             <View style={{flexDirection: 'column'}}>
-              <Tiles tiles={goodShapeAdvance} size={tilesSize} sorted />
+              <Tiles tiles={goodShapeAdvance} size={tilesSize} sorted style={{display: 'block'}} />
               <Text>共{record.goodShapeAdvanceNum}张</Text>
             </View>
           )

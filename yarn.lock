@@ -8398,13 +8398,13 @@ magic-string@^0.25.7:
 
 mahjong-utils-entry@^0.3.1:
   version "0.3.1"
-  resolved "https://registry.npmjs.org/mahjong-utils-entry/-/mahjong-utils-entry-0.3.1.tgz#d116d04222e00b7cd4aaeeed7da241e27b22484c"
+  resolved "http://localhost:4873/mahjong-utils-entry/-/mahjong-utils-entry-0.3.1.tgz#d116d04222e00b7cd4aaeeed7da241e27b22484c"
   integrity sha512-n5TeFDSJJIW/ddL27SmpUS1g72mOaXW74I+CgY/EyXRQgyUPmVd3CIvJCwzRNUgLS0DTqdpSbUBVFDtz7u8svg==
 
-mahjong-utils@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/mahjong-utils/-/mahjong-utils-0.3.1.tgz#8b26b5c45c904a2001950de91e9260d5e3f3b4a6"
-  integrity sha512-vmREoTQEiBLBy61qMYnTPYvrRYiL6EvpzipYZhRcv8LExgFr6Oa//Dv0NJ/NgbyexPf+N07HwVkj03+kOA4wbQ==
+mahjong-utils@^0.3.2:
+  version "0.3.2"
+  resolved "http://localhost:4873/mahjong-utils/-/mahjong-utils-0.3.2.tgz#c98111c5eba0bf6d86e79037b3fd8f1804a4320a"
+  integrity sha512-ymJpQ0MyVUf4/bgpsHalz95aBwcrQv/7vTcEaEvLhpDPanqcG5+qO3bVfAdPrqF6f3jhNiMnS28riVLZHUv0lg==
   dependencies:
     mahjong-utils-entry "^0.3.1"
 

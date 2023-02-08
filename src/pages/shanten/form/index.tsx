@@ -1,8 +1,8 @@
-import { Tile } from "mahjong-utils"
-import React, { useState } from "react"
-import { AtForm, AtInput, AtButton, AtRadio } from "taro-ui"
+import {Tile} from "mahjong-utils"
+import React, {useState} from "react"
+import {AtButton, AtForm, AtInput, AtRadio} from "taro-ui"
 import './index.scss'
-import { Panel } from "../../../components/Panel"
+import {Panel} from "../../../components/Panel"
 
 export type ShantenMode = 'union' | 'regular' | 'chitoi' | 'kokushi'
 
@@ -40,26 +40,26 @@ export const ShantenForm: React.FC<{
     return (
         <AtForm onSubmit={onSubmit}>
             <AtInput
-                name='tiles'
-                title='手牌'
-                type='text'
-                placeholder="示例：34568m235p688s"
-                value={tilesValue}
-                onChange={v => setTilesValue(v.toString())}
-                error={tilesError}
-                clear
-                required
+              name='tiles'
+              title='手牌'
+              type='text'
+              placeholder='示例：34568m235p688s'
+              value={tilesValue}
+              onChange={v => setTilesValue(v.toString())}
+              error={tilesError}
+              clear
+              required
             />
-            <Panel title="模式">
+            <Panel title='模式'>
                 <AtRadio
-                    options={[
+                  options={[
                         { label: '一般形', value: 'union', desc: '包括标准形、七对子与国士无双和牌的情况（默认）' },
                         { label: '标准形', value: 'regular', desc: '只考虑四面子+雀头和牌的情况' },
                         { label: '七对子', value: 'chitoi', desc: '只考虑七种对子和牌的情况' },
                         { label: '国士无双', value: 'kokushi', desc: '只考虑13张幺九牌其中1种一对，剩下12种各一张和牌的情况' }
                     ]}
-                    value={mode}
-                    onClick={v => setMode(v)}
+                  value={mode}
+                  onClick={v => setMode(v)}
                 />
             </Panel>
             <AtButton formType='submit'>提交</AtButton>

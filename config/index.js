@@ -1,3 +1,5 @@
+import path from "path";
+
 const config = {
   projectName: 'mahjong-utils-taro',
   date: '2023-2-8',
@@ -9,6 +11,9 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
+  alias: {
+    '@': path.resolve(__dirname,'..','src')
+  },
   plugins: [],
   defineConstants: {
   },

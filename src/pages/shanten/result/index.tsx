@@ -1,11 +1,18 @@
-import { Text, View } from "@tarojs/components"
-import { chitoiShanten, kokushiShanten, regularShanten, shanten, ShantenWithGot, ShantenWithoutGot, Tile } from "mahjong-utils"
-import { useMemo } from "react"
-import { useRouter } from "taro-hooks"
-import { Card } from "../../../components/Card"
-import { Panel } from "../../../components/Panel"
-import { Tiles } from "../../../components/Tiles"
-import { ActionShanten, ActionShantenTable } from "../../../components/ActionShantenTable"
+import {Text, View} from "@tarojs/components"
+import {
+  chitoiShanten,
+  kokushiShanten,
+  regularShanten,
+  shanten,
+  ShantenWithGot,
+  ShantenWithoutGot,
+  Tile
+} from "mahjong-utils"
+import {useMemo} from "react"
+import {useRouter} from "taro-hooks"
+import {Card} from "../../../components/Card"
+import {Tiles} from "../../../components/Tiles"
+import {ActionShanten, ActionShantenTable} from "../../../components/ActionShantenTable"
 import './index.scss'
 
 function getShantenText(shantenNum: number): string {
@@ -25,29 +32,35 @@ const ShantenWithoutGotView: React.FC<{
 }> = ({ tiles, shantenInfo }) => {
     return <>
         <Card title='手牌'
-            note='未摸牌'
-            style={{ marginTop: '16px' }}>
+          note='未摸牌'
+          style={{ marginTop: '16px' }}
+        >
             <Tiles tiles={tiles} sorted />
         </Card>
         <Card title='向听数'
-            style={{ marginTop: '16px' }}>
+          style={{ marginTop: '16px' }}
+        >
             {getShantenText(shantenInfo.shantenNum)}
         </Card>
         <Card title='进张'
-            note={`共${shantenInfo.advanceNum}张`}
-            style={{ marginTop: '16px' }}>
+          note={`共${shantenInfo.advanceNum}张`}
+          style={{ marginTop: '16px' }}
+        >
             <Tiles tiles={shantenInfo.advance} sorted />
         </Card>
         {shantenInfo.goodShapeAdvance !== undefined && shantenInfo.goodShapeAdvanceNum !== undefined
             ? <>
-                <Card title="好型进张"
-                    note={`共${shantenInfo.goodShapeAdvanceNum}张`}
-                    style={{ marginTop: '16px' }}>
+                <Card title='好型进张'
+                  note={`共${shantenInfo.goodShapeAdvanceNum}张`}
+                  style={{ marginTop: '16px' }}
+                >
                     <Tiles
-                        tiles={shantenInfo.goodShapeAdvance} sorted />
+                      tiles={shantenInfo.goodShapeAdvance} sorted
+                    />
                 </Card>
-                <Card title="好型率"
-                    style={{ marginTop: '16px' }}>
+                <Card title='好型率'
+                  style={{ marginTop: '16px' }}
+                >
                     {(shantenInfo.goodShapeAdvanceNum / shantenInfo.advanceNum * 100).toFixed(2)}%
                 </Card>
             </>
@@ -94,12 +107,14 @@ const ShantenWithGotView: React.FC<{
 
     return <>
         <Card title='手牌'
-            note='已摸牌'
-            style={{ marginTop: '16px' }}>
+          note='已摸牌'
+          style={{ marginTop: '16px' }}
+        >
             <Tiles tiles={tiles} sorted />
         </Card>
         <Card title='向听数'
-            style={{ marginTop: '16px' }}>
+          style={{ marginTop: '16px' }}
+        >
             {getShantenText(shantenInfo.shantenNum)}
         </Card>
         {ordered.map(([shantenNum, infos]) => {
@@ -133,11 +148,11 @@ const ShantenWithGotView: React.FC<{
             })
 
             return (
-                <ActionShantenTable
-                    title={title}
-                    data={data}
-                    showGoodShapeInfo={shantenNum === 1}
-                    style={{ 'margin': '0 12px' }}
+                <ActionShantenTable key={shantenNum}
+                  title={title}
+                  data={data}
+                  showGoodShapeInfo={shantenNum === 1}
+                  style={{ 'margin': '0 12px' }}
                 />
             )
         })}

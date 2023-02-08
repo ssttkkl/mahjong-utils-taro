@@ -1,8 +1,8 @@
 /**
  * 从OSSA偷过来的表格组件
- * 
+ *
  * https://github.com/NeteaseYanxuan/OSSA/blob/main/packages/ossa-demo/src/components/demoTable/index.tsx
- * 
+ *
  * @param {object} list 渲染数据
  * @param {string} list.title 标题
  * @param {array<string>} list.head 表头
@@ -10,7 +10,7 @@
  */
 
 import React from "react";
-import { View, ViewProps } from "@tarojs/components";
+import {View, ViewProps} from "@tarojs/components";
 import classNames from "classnames";
 import "./index.scss";
 
@@ -36,7 +36,8 @@ export const Table: React.FC<TableProps> = ({ title, columns, data, ...props }) 
           {columns.map((col: Column) => (
             <View className={classNames(rootClassName[4])}
               style={{ flex: col.flex ?? 1 }}
-              key={`${col.key}-header`}>
+              key={`${col.key}-header`}
+            >
               {col.title}
             </View>
           ))}
@@ -46,7 +47,8 @@ export const Table: React.FC<TableProps> = ({ title, columns, data, ...props }) 
             {columns.map((col: Column) => (
               <View className='table__td'
                 style={{ flex: col.flex ?? 1 }}
-                key={`${col.key}-${i}`}>
+                key={`${col.key}-${i}`}
+              >
                 {col.render ? col.render(item[col.key], item, i) : item[col.key]}
               </View>
             ))}

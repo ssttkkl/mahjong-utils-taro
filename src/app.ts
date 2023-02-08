@@ -1,4 +1,4 @@
-import { Component, PropsWithChildren } from 'react'
+import {Component, PropsWithChildren} from 'react'
 import './app.scss'
 
 class App extends Component<PropsWithChildren> {

@@ -1,6 +1,6 @@
-import { View } from '@tarojs/components'
+import {View} from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { AtGrid } from 'taro-ui'
+import {AtGrid} from 'taro-ui'
 
 import './index.scss'
 
@@ -25,10 +25,15 @@ const Index: React.FC = () => {
   ]
 
   const onClick = (item, index) => {
-    switch(index) {
+    switch (index) {
       case 0:
         Taro.navigateTo({
           url: '/pages/shanten/index',
+        })
+        break;
+      case 1:
+        Taro.navigateTo({
+          url: '/pages/furoShanten/index',
         })
         break;
     }
@@ -36,7 +41,7 @@ const Index: React.FC = () => {
 
   return (
     <View className='index'>
-      <AtGrid data={gridData} onClick={onClick}/>
+      <AtGrid data={gridData} onClick={onClick} />
     </View>
   )
 }

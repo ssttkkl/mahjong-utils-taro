@@ -26,7 +26,8 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "lint": "eslint src/{**/*,*}.{js,ts,jsx,tsx} --fix"
   },
   "browserslist": [
     "last 3 versions",
@@ -46,7 +47,7 @@
     "@tarojs/shared": "3.6.0",
     "@tarojs/taro": "3.6.0",
     "lodash": "4.17.15",
-    "mahjong-utils": "^0.3.0",
+    "mahjong-utils": "^0.3.1",
     "ossaui": "^0.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

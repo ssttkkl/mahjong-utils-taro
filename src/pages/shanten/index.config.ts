@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '向听计算'
+  navigationBarTitleText: '向听计算&牌理'
 })

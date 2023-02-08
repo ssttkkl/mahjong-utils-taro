@@ -1,4 +1,4 @@
-import { View, ViewProps } from "@tarojs/components";
+import {View, ViewProps} from "@tarojs/components";
 import './index.scss'
 
 export const Panel: React.FC<{ title: string } & ViewProps> = ({ title, children, ...props }) => {

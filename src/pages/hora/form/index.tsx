@@ -1,12 +1,13 @@
 import {Furo, Tile, Wind} from "mahjong-utils"
 import React, {useEffect, useMemo, useState} from "react"
-import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
+import {AtButton, AtCheckbox, AtForm, AtList, AtListItem, AtRadio} from "taro-ui"
 import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Picker, View} from "@tarojs/components";
 import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel";
 import {extraYakuForRon, extraYakuForTsumo, yakuName} from "../../../utils/yaku";
+import {TilesInput} from "../../../components/TilesInput";
 
 export interface HoraFormValues {
   tiles: string
@@ -175,7 +176,7 @@ export const HoraForm: React.FC<{
 
   return (
     <AtForm onSubmit={onSubmit}>
-      <AtInput
+      <TilesInput
         name='tiles'
         title='手牌'
         type='text'
@@ -185,7 +186,7 @@ export const HoraForm: React.FC<{
         error={tilesError}
         required
       />
-      <AtInput
+      <TilesInput
         name='agari'
         title='所和的牌'
         type='text'
@@ -195,7 +196,7 @@ export const HoraForm: React.FC<{
         error={agariError}
         required
       />
-      <AtInput
+      <TilesInput
         name='dora'
         title='宝牌'
         type='text'
@@ -236,7 +237,7 @@ export const HoraForm: React.FC<{
       <Panel title='副露'>
         <AtList>
           {furoValues.map((furo, index) => {
-            return <AtInput
+            return <TilesInput
               key={index}
               name={`furo${index}`}
               value={furo}
@@ -251,7 +252,7 @@ export const HoraForm: React.FC<{
               >
                 <View className='at-icon at-icon-subtract'></View>
               </AtButton>
-            </AtInput>
+            </TilesInput>
           })}
           {furoValues.length < 4 ?
             <AtListItem title='添加' arrow='right' onClick={onClickAddFuro} />

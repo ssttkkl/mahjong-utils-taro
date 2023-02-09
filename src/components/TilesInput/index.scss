@@ -1,0 +1,27 @@
+@import "~taro-ui/dist/style/variables/default";
+
+.tiles-input {
+  &__tiles_container {
+    display: flex;
+  }
+
+  &__tiles {
+    margin-left: 32px;
+    padding: 16px 0;
+    flex: 1;
+    display: inline-block;
+  }
+
+  &__tiles_number {
+    color: $at-radio-desc-color;
+    font-size: $at-radio-desc-size;
+    text-align: end;
+    line-height: $line-height-zh;
+    letter-spacing: 0;
+    word-break: break-all;
+    align-self: center;
+
+    margin-right: 32px;
+    padding: 16px 0;
+  }
+}

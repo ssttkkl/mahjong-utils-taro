@@ -1,9 +1,10 @@
 import {Tile} from "mahjong-utils"
 import React, {useState} from "react"
-import {AtButton, AtForm, AtInput, AtRadio} from "taro-ui"
+import {AtButton, AtForm, AtRadio} from "taro-ui"
 import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel"
+import {TilesInput} from "../../../components/TilesInput";
 
 export type ShantenMode = 'union' | 'regular' | 'chitoi' | 'kokushi'
 
@@ -67,7 +68,7 @@ export const ShantenForm: React.FC<{
 
   return (
     <AtForm onSubmit={onSubmit}>
-      <AtInput
+      <TilesInput
         name='tiles'
         title='手牌'
         type='text'

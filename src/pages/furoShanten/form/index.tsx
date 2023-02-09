@@ -1,8 +1,9 @@
 import {Tile} from "mahjong-utils"
 import React, {useState} from "react"
-import {AtButton, AtForm, AtInput, AtSwitch} from "taro-ui"
+import {AtButton, AtForm, AtSwitch} from "taro-ui"
 import {useToast} from "taro-hooks";
 import './index.scss'
+import {TilesInput} from "../../../components/TilesInput";
 
 export interface FuroShantenFormValues {
   tiles: string
@@ -67,7 +68,7 @@ export const FuroShantenForm: React.FC<{
 
   return (
     <AtForm onSubmit={onSubmit}>
-      <AtInput
+      <TilesInput
         name='tiles'
         title='手牌'
         type='text'
@@ -77,7 +78,7 @@ export const FuroShantenForm: React.FC<{
         error={tilesError}
         required
       />
-      <AtInput
+      <TilesInput
         name='chanceTile'
         title='机会牌'
         type='text'

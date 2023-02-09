@@ -14,10 +14,8 @@ export interface ShantenFormValues {
 }
 
 const modeOptions = [
-  {label: '一般形', value: 'union', desc: '包括标准形、七对子与国士无双和牌的情况（默认）'},
-  {label: '标准形', value: 'regular', desc: '只考虑四面子+雀头和牌的情况'},
-  {label: '七对子', value: 'chitoi', desc: '只考虑七种对子和牌的情况'},
-  {label: '国士无双', value: 'kokushi', desc: '只考虑13张幺九牌其中1种一对，剩下12种各一张和牌的情况'}
+  {label: '一般形', value: 'union', desc: '除四面子+雀头的标准形外，还考虑七对子与国士无双和牌的情况'},
+  {label: '标准形', value: 'regular', desc: '只考虑四面子+雀头和牌的情况'}
 ]
 
 export const ShantenForm: React.FC<{

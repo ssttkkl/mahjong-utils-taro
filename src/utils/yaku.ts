@@ -26,7 +26,7 @@ export const yakuName = {
   Ippatsu: '一发',
   Rinshan: '岭上开花',
   Chankan: '枪杠',
-  Haitei: '海底捞月',
+  Haitei: '海底摸月',
   Houtei: '河底捞鱼',
   WRichi: '两立直',
   Tenhou: '天和',

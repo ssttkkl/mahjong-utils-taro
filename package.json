@@ -47,7 +47,7 @@
     "@tarojs/shared": "3.6.0",
     "@tarojs/taro": "3.6.0",
     "lodash": "4.17.15",
-    "mahjong-utils": "^0.3.2",
+    "mahjong-utils": "^0.3.3",
     "ossaui": "^0.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

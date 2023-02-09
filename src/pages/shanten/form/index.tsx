@@ -5,6 +5,7 @@ import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel"
 import {TilesInput} from "../../../components/TilesInput";
+import { validateNumOfTiles } from "../../../utils/tiles";
 
 export type ShantenMode = 'union' | 'regular' | 'chitoi' | 'kokushi'
 
@@ -40,7 +41,7 @@ export const ShantenForm: React.FC<{
     // validate tiles number
     if (valid && (tiles?.length ?? 0) > 14) {
       showToast({
-        title: '手牌不能由多余14张牌组成',
+        title: '手牌不能由多于14张牌组成',
         icon: 'none'
       }).catch(e => console.error(e))
       return
@@ -48,6 +49,14 @@ export const ShantenForm: React.FC<{
     if (valid && (tiles?.length ?? 0) % 3 === 0) {
       showToast({
         title: '手牌不能由3的倍数张牌组成',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
+    }
+
+    if (valid && !validateNumOfTiles(tiles!)) {
+      showToast({
+        title: '单种牌不能超过4张',
         icon: 'none'
       }).catch(e => console.error(e))
       return

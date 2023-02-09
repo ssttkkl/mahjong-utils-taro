@@ -4,6 +4,7 @@ import {AtButton, AtForm, AtSwitch} from "taro-ui"
 import {useToast} from "taro-hooks";
 import './index.scss'
 import {TilesInput} from "../../../components/TilesInput";
+import { validateNumOfTiles } from "../../../utils/tiles";
 
 export interface FuroShantenFormValues {
   tiles: string
@@ -49,6 +50,15 @@ export const FuroShantenForm: React.FC<{
     if (valid && ((tiles?.length ?? 0) % 3 !== 1 || (tiles?.length ?? 0) > 13)) {
       showToast({
         title: '手牌必须由4、7、10或13张牌组成',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
+    }
+
+    // ts-ignore
+    if (valid && !validateNumOfTiles([...tiles, chanceTile])) {
+      showToast({
+        title: '单种牌不能超过4张',
         icon: 'none'
       }).catch(e => console.error(e))
       return

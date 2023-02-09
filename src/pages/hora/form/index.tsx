@@ -1,13 +1,14 @@
-import {Furo, Tile, Wind} from "mahjong-utils"
-import React, {useEffect, useMemo, useState} from "react"
-import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
-import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
-import {Picker, View} from "@tarojs/components";
-import {useToast} from "taro-hooks";
+import { Furo, Tile, Wind } from "mahjong-utils"
+import React, { useEffect, useMemo, useState } from "react"
+import { AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio } from "taro-ui"
+import { ExtraYaku, getAllExtraYaku } from "mahjong-utils/dist/hora/yaku";
+import { Picker, View } from "@tarojs/components";
+import { useToast } from "taro-hooks";
 import './index.scss'
-import {Panel} from "../../../components/Panel";
-import {extraYakuForRon, extraYakuForTsumo, yakuName} from "../../../utils/yaku";
-import {TilesInput} from "../../../components/TilesInput";
+import { Panel } from "../../../components/Panel";
+import { extraYakuForRon, extraYakuForTsumo, yakuName } from "../../../utils/yaku";
+import { TilesInput } from "../../../components/TilesInput";
+import { validateNumOfTiles } from "../../../utils/tiles";
 
 export interface HoraFormValues {
   tiles: string
@@ -21,15 +22,15 @@ export interface HoraFormValues {
 }
 
 const tsumoOptions = [
-  {label: '自摸', value: "true"},
-  {label: '荣和', value: "false"}
+  { label: '自摸', value: "true" },
+  { label: '荣和', value: "false" }
 ]
 
 const windOptions = [
-  {label: '东', value: Wind.East},
-  {label: '南', value: Wind.South},
-  {label: '西', value: Wind.West},
-  {label: '北', value: Wind.North}
+  { label: '东', value: Wind.East },
+  { label: '南', value: Wind.South },
+  { label: '西', value: Wind.West },
+  { label: '北', value: Wind.North }
 ]
 
 export const HoraForm: React.FC<{
@@ -150,6 +151,15 @@ export const HoraForm: React.FC<{
       return
     }
 
+    // ts-ignore
+    if (valid && !validateNumOfTiles([...tiles, ...furo.flatMap(x => x?.tiles)])) {
+      showToast({
+        title: '单种牌不能超过4张',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
+    }
+
     if (valid && tiles?.find(x => x === agari) === undefined) {
       showToast({
         title: '所和的牌必须包含在手牌中',
@@ -170,7 +180,7 @@ export const HoraForm: React.FC<{
         extraYaku
       })
     } else {
-      showToast({title: '请检查输入', icon: 'error'})
+      showToast({ title: '请检查输入', icon: 'error' })
         .catch(e => console.error(e))
     }
   }

@@ -46,7 +46,7 @@ export const HoraForm: React.FC<{
   const [furoValues, setFuroValues] = useState<string[]>([])
   const [furoErrors, setFuroErrors] = useState<boolean[]>([])
 
-  const [doraValue, setDoraValue] = useState("")
+  const [doraValue, setDoraValue] = useState("0")
   const [doraError, setDoraError] = useState(false)
 
   const [tsumo, setTsumo] = useState(true)
@@ -122,7 +122,8 @@ export const HoraForm: React.FC<{
 
     // validate dora
     const dora = Number.parseInt(doraValue)
-    if (dora === undefined) {
+    if (doraValue.length !== 0 && (!(/^(0|[1-9][0-9]*)$/.test(doraValue))
+      || dora < 0 || dora > 200)) {
       setDoraError(true)
       valid = false
     } else {

@@ -1,0 +1,21 @@
+@import "~taro-ui/dist/style/components/article.scss";
+
+.error-msg {
+  @extend .at-article;
+
+  text-align: center;
+  margin-top: 150px;
+
+  &__title {
+    @extend .at-article__h1
+  }
+
+  &__subtitle {
+    @extend .at-article__h3
+  }
+
+  &__content {
+    @extend .at-article__info
+
+  }
+}

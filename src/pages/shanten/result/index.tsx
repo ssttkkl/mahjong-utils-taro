@@ -1,4 +1,4 @@
-import {Text, View} from "@tarojs/components"
+import {View} from "@tarojs/components"
 import {
   chitoiShanten,
   kokushiShanten,
@@ -8,13 +8,15 @@ import {
   ShantenWithoutGot,
   Tile
 } from "mahjong-utils"
-import React, {useMemo} from "react"
+import React, {useMemo, useState} from "react"
 import {useRouter} from "taro-hooks"
 import {Card} from "../../../components/Card"
 import {Tiles} from "../../../components/Tiles"
 import {ActionShanten, ActionShantenTable} from "../../../components/ActionShantenTable"
 import './index.scss'
 import {Panel} from "../../../components/Panel";
+import {buildSearchParams} from "../../../utils/searchParams";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -170,37 +172,46 @@ const ShantenWithGotView: React.FC<{
 const ShantenResult: React.FC = () => {
   const [{params}] = useRouter()
 
+  const [error, setError] = useState<unknown>()
+
   const result = useMemo<[Tile[], ShantenWithoutGot | ShantenWithGot] | undefined>(() => {
-    const mode = params.mode ?? 'union'
-    const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
+    try {
+      const mode = params.mode ?? 'union'
+      const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
 
-    let func: (tiles: Tile[]) => { shantenInfo: ShantenWithoutGot | ShantenWithGot } = shanten
+      let func: (tiles: Tile[]) => { shantenInfo: ShantenWithoutGot | ShantenWithGot } = shanten
 
-    switch (mode) {
-      case 'union':
-        func = shanten
-        break;
-      case 'regular':
-        func = regularShanten
-        break
-      case 'chitoi':
-        func = chitoiShanten
-        break
-      case 'kokushi':
-        func = kokushiShanten
-        break
-    }
-    if (tiles !== undefined) {
-      const {shantenInfo} = func(tiles)
-      console.log(`invoke ${mode} shanten`)
-      return [tiles, shantenInfo]
-    } else {
+      switch (mode) {
+        case 'union':
+          func = shanten
+          break;
+        case 'regular':
+          func = regularShanten
+          break
+        case 'chitoi':
+          func = chitoiShanten
+          break
+        case 'kokushi':
+          func = kokushiShanten
+          break
+      }
+      if (tiles !== undefined) {
+        console.log(`invoke ${mode} shanten`)
+        const {shantenInfo} = func(tiles)
+        console.log("result", shantenInfo)
+        return [tiles, shantenInfo]
+      } else {
+        throw new Error("invalid params: " + buildSearchParams(params))
+      }
+    } catch (e) {
+      console.error(e)
+      setError(e)
       return undefined
     }
   }, [params])
 
   if (result === undefined) {
-    return <Text>计算中</Text>
+    return <ErrorMessage error={error} />
   } else {
     const [tiles, shantenInfo] = result
     if (shantenInfo.type === "ShantenWithoutGot") {

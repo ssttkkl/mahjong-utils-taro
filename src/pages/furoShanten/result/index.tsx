@@ -7,13 +7,15 @@ import {
   Tatsu,
   Tile
 } from "mahjong-utils"
-import React, {useMemo} from "react"
+import React, {useMemo, useState} from "react"
 import {useRouter} from "taro-hooks"
 import {Card} from "../../../components/Card"
 import {Tiles} from "../../../components/Tiles"
 import {ActionShanten, ActionShantenTable} from "../../../components/ActionShantenTable"
 import './index.scss'
 import {Panel} from "../../../components/Panel";
+import {buildSearchParams} from "../../../utils/searchParams";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -158,20 +160,31 @@ const ShantenWithFuroChanceView: React.FC<{
 const FuroShantenResult: React.FC = () => {
   const [{params}] = useRouter()
 
+  const [error, setError] = useState<unknown>()
+
   const result = useMemo<[Tile[], Tile, FuroChanceShantenResult] | undefined>(() => {
-    const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
-    const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined
-    const allowChi = params.allowChi === 'true'
-    if (tiles && chanceTile) {
-      console.log('invoke furoChanceShanten')
-      const shantenResult = furoChanceShanten(tiles, chanceTile, {allowChi})
-      return [tiles, chanceTile, shantenResult]
+    try {
+      const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
+      const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined
+      const allowChi = params.allowChi === 'true'
+      if (tiles && chanceTile) {
+        console.log('invoke furoChanceShanten')
+        const shantenResult = furoChanceShanten(tiles, chanceTile, {allowChi})
+        console.log("result", shantenResult)
+        setError(undefined)
+        return [tiles, chanceTile, shantenResult]
+      } else {
+        throw new Error("invalid params: " + buildSearchParams(params))
+      }
+    } catch (e) {
+      console.error(e)
+      setError(e)
+      return undefined
     }
-    return undefined
   }, [params])
 
   if (result === undefined) {
-    return <Text>计算中</Text>
+    return <ErrorMessage error={error} />
   } else {
     const [tiles, chanceTile, shantenResult] = result
     return <ShantenWithFuroChanceView

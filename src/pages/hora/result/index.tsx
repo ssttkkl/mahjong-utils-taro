@@ -10,7 +10,7 @@ import {
   Tile,
   Wind
 } from "mahjong-utils"
-import React, {useMemo} from "react"
+import React, {useMemo, useState} from "react"
 import {useRouter} from "taro-hooks"
 import {ExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Tiles} from "../../../components/Tiles";
@@ -18,6 +18,8 @@ import {Card} from "../../../components/Card";
 import {doubleTimesYakuman, yakuName} from "../../../utils/yaku";
 import PointByHanHuResult from "../../pointByHanHu/result";
 import './index.scss'
+import {buildSearchParams} from "../../../utils/searchParams";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 const HoraView: React.FC<{
   tiles: Tile[],
@@ -153,6 +155,8 @@ const HoraView: React.FC<{
 const HoraResult: React.FC = () => {
   const [{params}] = useRouter()
 
+  const [error, setError] = useState<unknown>()
+
   const result = useMemo<[Tile[], Tile, Hora] | undefined>(() => {
     try {
       const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
@@ -174,18 +178,20 @@ const HoraResult: React.FC = () => {
         console.log("invoke buildHora")
         const hora = buildHora({tiles, agari, furo, tsumo, dora, selfWind, roundWind, extraYaku})
         console.log("result", hora)
+        setError(undefined)
         return [tiles, agari, hora]
       } else {
-        return undefined
+        throw new Error("invalid params: " + buildSearchParams(params))
       }
     } catch (e) {
       console.error(e)
+      setError(e)
       return undefined
     }
   }, [params])
 
   if (result === undefined) {
-    return <Text>计算中</Text>
+    return <ErrorMessage error={error} />
   } else {
     const [tiles, agari, hora] = result
     return <HoraView tiles={tiles} agari={agari} hora={hora} />

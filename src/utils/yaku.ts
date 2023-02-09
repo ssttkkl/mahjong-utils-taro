@@ -49,3 +49,11 @@ export const yakuName = {
 export const doubleTimesYakuman = [
   'Daisushi', 'ChurenNineWaiting', 'SuankoTanki', 'KokushiThirteenWaiting'
 ]
+
+export const extraYakuForTsumo = [
+  'Richi', 'Ippatsu', 'Rinshan', 'Haitei', 'WRichi', 'Tenhou', 'Chihou'
+]
+
+export const extraYakuForRon = [
+  'Richi', 'Ippatsu', 'Chankan', 'Houtei', 'WRichi'
+]

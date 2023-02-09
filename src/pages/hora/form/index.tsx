@@ -1,12 +1,12 @@
 import {Furo, Tile, Wind} from "mahjong-utils"
-import React, {useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
 import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Picker, View} from "@tarojs/components";
 import {useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel";
-import {yakuName} from "../../../utils/yaku";
+import {extraYakuForRon, extraYakuForTsumo, yakuName} from "../../../utils/yaku";
 
 export interface HoraFormValues {
   tiles: string
@@ -31,11 +31,6 @@ const windOptions = [
   {label: '北', value: Wind.North}
 ]
 
-const extraYakuOptions = getAllExtraYaku().map(x => ({
-  value: x,
-  label: yakuName[x]
-}))
-
 export const HoraForm: React.FC<{
   onSubmit: (values: HoraFormValues) => Promise<void>
 }> = (props) => {
@@ -57,7 +52,33 @@ export const HoraForm: React.FC<{
   const [selfWindValue, setSelfWindValue] = useState(0)
   const [roundWindValue, setRoundWindValue] = useState(0)
 
+  const extraYakuOptions = useMemo(() => {
+    return getAllExtraYaku().map(x => {
+      let disabled = (tsumo ? extraYakuForTsumo : extraYakuForRon).find(y => x === y) === undefined
+      if (x === 'Tenhou') {
+        disabled ||= selfWindValue !== 0
+      } else if (x === 'Chihou') {
+        disabled ||= selfWindValue === 0
+      }
+      return {
+        value: x,
+        label: yakuName[x],
+        disabled: disabled
+      }
+    })
+  }, [selfWindValue, tsumo])
+
   const [extraYaku, setExtraYaku] = useState<ExtraYaku[]>([])
+
+  // 当某些役被ban之后更新已选中的额外役
+  useEffect(() => {
+    const newExtraYaku = extraYaku.filter(x =>
+      !(extraYakuOptions.find(y => x === y.value && y.disabled))
+    )
+    if (newExtraYaku.length !== extraYaku.length) {
+      setExtraYaku(newExtraYaku)
+    }
+  },[extraYaku, extraYakuOptions])
 
   const onClickAddFuro = () => {
     setFuroValues([...furoValues, ''])

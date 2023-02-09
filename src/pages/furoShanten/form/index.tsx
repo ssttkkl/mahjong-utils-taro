@@ -44,6 +44,15 @@ export const FuroShantenForm: React.FC<{
       setChanceTilesError(false)
     }
 
+    // validate tiles number
+    if (valid && ((tiles?.length ?? 0) % 3 !== 1 || (tiles?.length ?? 0) > 13)) {
+      showToast({
+        title: '手牌必须由4、7、10或13张牌组成',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
+    }
+
     if (valid) {
       await props.onSubmit({
         tiles: tilesValue,

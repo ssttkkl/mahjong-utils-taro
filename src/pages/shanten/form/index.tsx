@@ -38,6 +38,22 @@ export const ShantenForm: React.FC<{
       valid = false
     }
 
+    // validate tiles number
+    if (valid && (tiles?.length ?? 0) > 14) {
+      showToast({
+        title: '手牌不能由多余14张牌组成',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
+    }
+    if (valid && (tiles?.length ?? 0) % 3 === 0) {
+      showToast({
+        title: '手牌不能由3的倍数张牌组成',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
+    }
+
     if (valid) {
       await props.onSubmit({
         tiles: tilesValue,

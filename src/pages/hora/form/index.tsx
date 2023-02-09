@@ -1,6 +1,6 @@
 import {Furo, Tile, Wind} from "mahjong-utils"
 import React, {useEffect, useMemo, useState} from "react"
-import {AtButton, AtCheckbox, AtForm, AtList, AtListItem, AtRadio} from "taro-ui"
+import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
 import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Picker, View} from "@tarojs/components";
 import {useToast} from "taro-hooks";
@@ -197,10 +197,10 @@ export const HoraForm: React.FC<{
         error={agariError}
         required
       />
-      <TilesInput
+      <AtInput
         name='dora'
         title='宝牌'
-        type='text'
+        type='digit'
         value={doraValue}
         onChange={v => setDoraValue(v.toString())}
         error={doraError}

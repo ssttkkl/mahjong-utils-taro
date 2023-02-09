@@ -26,7 +26,7 @@ const HoraView: React.FC<{
 }> = ({tiles, agari, hora}) => {
   const sortedTiles = useMemo(() => {
     const sorted = [...tiles]
-    sorted.splice(sortedTiles.findIndex(x => x === agari), 1)
+    sorted.splice(sorted.findIndex(x => x === agari), 1)
     sorted.sort((a, b) => a.compareTo(b))
     return sorted
   }, [tiles, agari])

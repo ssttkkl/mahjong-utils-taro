@@ -52,13 +52,21 @@ export const HoraForm: React.FC<{
   const [selfWindValue, setSelfWindValue] = useState(0)
   const [roundWindValue, setRoundWindValue] = useState(0)
 
+  const [extraYaku, setExtraYaku] = useState<ExtraYaku[]>([])
+
   const extraYakuOptions = useMemo(() => {
     return getAllExtraYaku().map(x => {
       let disabled = (tsumo ? extraYakuForTsumo : extraYakuForRon).find(y => x === y) === undefined
       if (x === 'Tenhou') {
         disabled ||= selfWindValue !== 0
+        disabled ||= furoValues.length !== 0
       } else if (x === 'Chihou') {
         disabled ||= selfWindValue === 0
+        disabled ||= furoValues.length !== 0
+      } else if (x === 'Richi' || x === 'WRichi') {
+        disabled ||= furoValues.length !== 0
+      } else if (x === 'Ippatsu') {
+        disabled ||= extraYaku.find(y => y === 'Richi' || y === 'WRichi') === undefined
       }
       return {
         value: x,
@@ -66,9 +74,7 @@ export const HoraForm: React.FC<{
         disabled: disabled
       }
     })
-  }, [selfWindValue, tsumo])
-
-  const [extraYaku, setExtraYaku] = useState<ExtraYaku[]>([])
+  }, [extraYaku, furoValues.length, selfWindValue, tsumo])
 
   // 当某些役被ban之后更新已选中的额外役
   useEffect(() => {
@@ -78,7 +84,7 @@ export const HoraForm: React.FC<{
     if (newExtraYaku.length !== extraYaku.length) {
       setExtraYaku(newExtraYaku)
     }
-  },[extraYaku, extraYakuOptions])
+  }, [extraYaku, extraYakuOptions])
 
   const onClickAddFuro = () => {
     setFuroValues([...furoValues, ''])

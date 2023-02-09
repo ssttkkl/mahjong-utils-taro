@@ -24,7 +24,7 @@ export const PointByHanHuForm: React.FC<{
     // validate tiles
     const han = Number.parseInt(hanValue)
     if (hanValue.length === 0
-      || han === undefined
+      || !(/^[1-9][0-9]*$/.test(hanValue))
       || han < 1) {
       setHanError(true)
       valid = false
@@ -34,7 +34,7 @@ export const PointByHanHuForm: React.FC<{
 
     const hu = Number.parseInt(huValue)
     if (huValue.length === 0
-      || hu === undefined
+      || !(/^[1-9][0-9]*$/.test(huValue))
       || hu !== 25 && hu % 10 !== 0) {
       setHuError(true)
       valid = false
@@ -57,7 +57,7 @@ export const PointByHanHuForm: React.FC<{
       <AtInput
         name='han'
         title='番数'
-        type='number'
+        type='digit'
         placeholder='示例：3'
         value={hanValue}
         onChange={v => setHanValue(v.toString())}
@@ -67,7 +67,7 @@ export const PointByHanHuForm: React.FC<{
       <AtInput
         name='hu'
         title='符数'
-        type='number'
+        type='digit'
         placeholder='示例：40'
         value={huValue}
         onChange={v => setHuValue(v.toString())}

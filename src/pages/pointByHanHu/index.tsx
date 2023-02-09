@@ -33,7 +33,7 @@ const PointByHanHuPage: React.FC = () => {
     if (!p && !c) {
       await showToast({
         title: '不存在对应的和牌',
-        icon: 'error'
+        icon: 'none'
       })
     }
   }

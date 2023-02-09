@@ -8,9 +8,6 @@ import './index.scss'
 const HelpPage: React.FC = () => {
   return (
     <View className='at-article'>
-      <View className='at-article__h1'>
-        帮助
-      </View>
       <View className='at-article__content'>
         <View className='at-article__section'>
           <View className='at-article__h2'>

@@ -32,5 +32,6 @@ export default defineAppConfig({
         selectedIconPath: 'assets/images/icons/help_selected.png'
       }
     ]
-  }
+  },
+  "lazyCodeLoading": "requiredComponents"
 })

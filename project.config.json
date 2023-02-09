@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "mahjong-utils-taro",
   "description": "",
-  "appid": "wx97af15b365336811",
+  "appid": "wx6ac589c9a9941233",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -10,7 +10,7 @@
     "compileHotReLoad": false,
     "postcss": false,
     "preloadBackgroundData": false,
-    "minified": false,
+    "minified": true,
     "newFeature": true,
     "autoAudits": false,
     "coverView": true,

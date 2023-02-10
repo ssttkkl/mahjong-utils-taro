@@ -3,7 +3,7 @@ import React, {useEffect, useMemo, useState} from "react"
 import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
 import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
 import {Picker, View} from "@tarojs/components";
-import {useToast} from "taro-hooks";
+import {useModal, useToast} from "taro-hooks";
 import './index.scss'
 import {Panel} from "../../../components/Panel";
 import {extraYakuForRon, extraYakuForTsumo, yakuName} from "../../../utils/yaku";
@@ -48,6 +48,11 @@ export const HoraForm: React.FC<{
   onSubmit: (values: HoraFormValues) => Promise<void>
 }> = (props) => {
   const [showToast] = useToast()
+  const [showFuroHelpModal] = useModal({
+    title: "副露",
+    content: "暗杠使用例如0330m（暗杠三万）的方式输入",
+    showCancel: false
+  })
 
   const [tilesValue, setTilesValue] = useState("")
   const [tilesError, setTilesError] = useState(false)
@@ -256,7 +261,7 @@ export const HoraForm: React.FC<{
           />
         </AtList>
       </Picker>
-      <Panel title='副露'>
+      <Panel title='副露' suffix={<View className='at-icon at-icon-help' onClick={() => showFuroHelpModal()} />}>
         <AtList>
           {furoValues.map((furo, index) => {
             return <TilesInput

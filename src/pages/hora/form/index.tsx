@@ -1,14 +1,14 @@
-import { Furo, Tile, Wind } from "mahjong-utils"
-import React, { useEffect, useMemo, useState } from "react"
-import { AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio } from "taro-ui"
-import { ExtraYaku, getAllExtraYaku } from "mahjong-utils/dist/hora/yaku";
-import { Picker, View } from "@tarojs/components";
-import { useToast } from "taro-hooks";
+import {Furo, FuroType, Tile, Wind} from "mahjong-utils"
+import React, {useEffect, useMemo, useState} from "react"
+import {AtButton, AtCheckbox, AtForm, AtInput, AtList, AtListItem, AtRadio} from "taro-ui"
+import {ExtraYaku, getAllExtraYaku} from "mahjong-utils/dist/hora/yaku";
+import {Picker, View} from "@tarojs/components";
+import {useToast} from "taro-hooks";
 import './index.scss'
-import { Panel } from "../../../components/Panel";
-import { extraYakuForRon, extraYakuForTsumo, yakuName } from "../../../utils/yaku";
-import { TilesInput } from "../../../components/TilesInput";
-import { validateNumOfTiles } from "../../../utils/tiles";
+import {Panel} from "../../../components/Panel";
+import {extraYakuForRon, extraYakuForTsumo, yakuName} from "../../../utils/yaku";
+import {TilesInput} from "../../../components/TilesInput";
+import {validateNumOfTiles} from "../../../utils/tiles";
 
 export interface HoraFormValues {
   tiles: string
@@ -22,16 +22,27 @@ export interface HoraFormValues {
 }
 
 const tsumoOptions = [
-  { label: '自摸', value: "true" },
-  { label: '荣和', value: "false" }
+  {label: '自摸', value: "true"},
+  {label: '荣和', value: "false"}
 ]
 
 const windOptions = [
-  { label: '东', value: Wind.East },
-  { label: '南', value: Wind.South },
-  { label: '西', value: Wind.West },
-  { label: '北', value: Wind.North }
+  {label: '东', value: Wind.East},
+  {label: '南', value: Wind.South},
+  {label: '西', value: Wind.West},
+  {label: '北', value: Wind.North}
 ]
+
+const furoParser = (x) => {
+  const furo = Furo.parse(x)
+  if (furo !== undefined) {
+    if (furo.type === FuroType.Ankan) {
+      return [undefined, furo.tile, furo.tile, undefined]
+    }
+    return furo.tiles
+  }
+  return Tile.parseTiles(x) ?? []
+}
 
 export const HoraForm: React.FC<{
   onSubmit: (values: HoraFormValues) => Promise<void>
@@ -151,7 +162,7 @@ export const HoraForm: React.FC<{
       return
     }
 
-    // ts-ignore
+    // @ts-ignore
     if (valid && !validateNumOfTiles([...tiles, ...furo.flatMap(x => x?.tiles)])) {
       showToast({
         title: '单种牌不能超过4张',
@@ -180,7 +191,7 @@ export const HoraForm: React.FC<{
         extraYaku
       })
     } else {
-      showToast({ title: '请检查输入', icon: 'error' })
+      showToast({title: '请检查输入', icon: 'error'})
         .catch(e => console.error(e))
     }
   }
@@ -209,7 +220,7 @@ export const HoraForm: React.FC<{
       />
       <AtInput
         name='dora'
-        title='宝牌'
+        title='宝牌数'
         type='digit'
         value={doraValue}
         onChange={v => setDoraValue(v.toString())}
@@ -253,6 +264,7 @@ export const HoraForm: React.FC<{
               name={`furo${index}`}
               value={furo}
               error={furoErrors[index]}
+              parser={furoParser}
               onChange={v => onChangeFuro(v.toString(), index)}
               placeholder='示例：789p'
             >

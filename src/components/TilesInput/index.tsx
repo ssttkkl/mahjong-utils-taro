@@ -9,14 +9,15 @@ import './index.scss'
 export type TilesInputProps = AtInputProps & {
   rootViewClassname?: string
   rootViewStyle?: string | CSSProperties
+  parser?: (string) => (Tile | undefined)[]
 }
 
-export const TilesInput: React.FC<TilesInputProps> = ({rootViewStyle, rootViewClassname, ...props}) => {
+export const TilesInput: React.FC<TilesInputProps> = ({rootViewStyle, rootViewClassname, parser, ...props}) => {
   const {onChange} = props
-  const [tiles, setTiles] = useState<Tile[]>([])
+  const [tiles, setTiles] = useState<(Tile | undefined)[]>([])
 
   const myOnChange = (v, e) => {
-    const newTiles = Tile.parseTiles(v)
+    const newTiles = parser ? parser(v) : Tile.parseTiles(v)
     if (newTiles !== undefined) {
       setTiles(newTiles)
     }

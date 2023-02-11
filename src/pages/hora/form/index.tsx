@@ -158,17 +158,15 @@ export const HoraForm: React.FC<{
       }
     })
 
-    // validate total tiles number
-    if (valid && (tiles?.length ?? 0) + furo.length * 3 !== 14) {
-      showToast({
-        title: '手牌（包括副露）必须由14张牌组成',
-        icon: 'none'
-      }).catch(e => console.error(e))
+    if (!valid) {
+      showToast({title: '请检查输入', icon: 'error'})
+        .catch(e => console.error(e))
       return
     }
 
+    // validate total tiles number
     // @ts-ignore
-    if (valid && !validateNumOfTiles([...tiles, ...furo.flatMap(x => x?.tiles)])) {
+    if (!validateNumOfTiles([...tiles, ...furo.flatMap(x => x?.tiles)])) {
       showToast({
         title: '单种牌不能超过4张',
         icon: 'none'
@@ -176,29 +174,31 @@ export const HoraForm: React.FC<{
       return
     }
 
-    if (valid && tiles?.find(x => x === agari) === undefined) {
+    const total = (tiles?.length ?? 0) + furo.length * 3
+    if (total === 14 && tiles?.find(x => x === agari) === undefined) {
       showToast({
         title: '所和的牌必须包含在手牌中',
         icon: 'none'
       }).catch(e => console.error(e))
       return
+    } else if (total !== 14 && total !== 13) {
+      showToast({
+        title: '手牌枚数（包括副露）数量不足',
+        icon: 'none'
+      }).catch(e => console.error(e))
+      return
     }
 
-    if (valid) {
-      await props.onSubmit({
-        tiles: tilesValue,
-        agari: agariValue,
-        furo: furoValues,
-        tsumo: tsumo,
-        dora,
-        selfWind: windOptions[selfWindValue].value,
-        roundWind: windOptions[roundWindValue].value,
-        extraYaku
-      })
-    } else {
-      showToast({title: '请检查输入', icon: 'error'})
-        .catch(e => console.error(e))
-    }
+    await props.onSubmit({
+      tiles: total === 14 ? tilesValue : Tile.tilesToString([...tiles, agari]),
+      agari: agariValue,
+      furo: furoValues,
+      tsumo: tsumo,
+      dora,
+      selfWind: windOptions[selfWindValue].value,
+      roundWind: windOptions[roundWindValue].value,
+      extraYaku
+    })
   }
 
   return (

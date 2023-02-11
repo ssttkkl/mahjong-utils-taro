@@ -1,7 +1,6 @@
 import {View} from "@tarojs/components"
 import {
-  chitoiShanten,
-  kokushiShanten,
+  AbstractCommonShantenInfo,
   regularShanten,
   shanten,
   ShantenWithGot,
@@ -174,12 +173,12 @@ const ShantenResult: React.FC = () => {
 
   const [error, setError] = useState<unknown>()
 
-  const result = useMemo<[Tile[], ShantenWithoutGot | ShantenWithGot] | undefined>(() => {
+  const result = useMemo<[Tile[], AbstractCommonShantenInfo] | undefined>(() => {
     try {
       const mode = params.mode ?? 'union'
       const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
 
-      let func: (tiles: Tile[]) => { shantenInfo: ShantenWithoutGot | ShantenWithGot } = shanten
+      let func: typeof shanten | typeof regularShanten = shanten
 
       switch (mode) {
         case 'union':
@@ -187,12 +186,6 @@ const ShantenResult: React.FC = () => {
           break;
         case 'regular':
           func = regularShanten
-          break
-        case 'chitoi':
-          func = chitoiShanten
-          break
-        case 'kokushi':
-          func = kokushiShanten
           break
       }
       if (tiles !== undefined) {

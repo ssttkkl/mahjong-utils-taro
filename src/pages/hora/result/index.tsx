@@ -1,15 +1,5 @@
 import {Text, View} from "@tarojs/components"
-import {
-  buildHora,
-  Furo,
-  FuroType,
-  getChildPointByHanHu,
-  getParentPointByHanHu,
-  Hora,
-  RegularHoraHandPattern,
-  Tile,
-  Wind
-} from "mahjong-utils"
+import {buildHora, Furo, FuroType, Hora, RegularHoraHandPattern, Tile, Wind} from "mahjong-utils"
 import React, {useMemo, useState} from "react"
 import {useRouter} from "taro-hooks"
 import {ExtraYaku} from "mahjong-utils/dist/hora/yaku";
@@ -33,42 +23,18 @@ const HoraView: React.FC<{
     return sorted
   }, [tiles, agari])
 
-  const [timesOfYakuman, parent, child] = useMemo(() => {
-    let yakuman = 0
-    if (hora.hasYakuman) {
-      hora.yaku.forEach(yk => {
-        if (doubleTimesYakuman.find(x => x === yk) !== undefined) {
-          yakuman += 2
-        } else {
-          yakuman += 1
-        }
-      })
-    }
+  const isParent = hora.pattern.selfWind === hora.pattern.roundWind
 
-    let p: { ron: number, tsumo: number } | undefined
-    let c: { ron: number, tsumoParent: number, tsumoChild: number } | undefined
-
-    if (hora.pattern.selfWind === hora.pattern.roundWind) {  // isParent
-      if (yakuman > 0) {
-        p = getParentPointByHanHu(13, 20)
-        p.ron *= yakuman
-        p.tsumo *= yakuman
-      } else if (hora.han > 0) {
-        p = getParentPointByHanHu(hora.han, hora.pattern.hu)
+  let timesOfYakuman = 0
+  if (hora.hasYakuman) {
+    hora.yaku.forEach(yk => {
+      if (doubleTimesYakuman.find(x => x === yk) !== undefined) {
+        timesOfYakuman += 2
+      } else {
+        timesOfYakuman += 1
       }
-    } else {
-      if (yakuman > 0) {
-        c = getChildPointByHanHu(13, 20)
-        c.ron *= yakuman
-        c.tsumoParent *= yakuman
-        c.tsumoChild *= yakuman
-      } else if (hora.han > 0) {
-        c = getChildPointByHanHu(hora.han, hora.pattern.hu)
-      }
-    }
-
-    return [yakuman, p, c]
-  }, [hora])
+    })
+  }
 
   return <>
     <Card title='手牌'
@@ -138,9 +104,7 @@ const HoraView: React.FC<{
       style={{marginTop: '16px'}}
     >
       <Text>
-        番数：{hora.hasYakuman
-        ? `${timesOfYakuman}倍役满`
-        : (hora.han >= 13 ? `累计役满（${hora.han}番）` : `${hora.han}番`)}
+        番数：{hora.hasYakuman ? `${timesOfYakuman}倍役满` : `${hora.han}番`}
         {'\n'}
         符数：{hora.pattern.hu}
         {'\n'}
@@ -148,7 +112,9 @@ const HoraView: React.FC<{
       </Text>
     </Card>
     <View style={{height: '16px'}} />
-    <PointByHanHuResult parent={parent} child={child} />
+    <PointByHanHuResult parent={isParent ? hora.parentPoint : undefined}
+      child={isParent ? undefined : hora.childPoint}
+    />
   </>
 }
 

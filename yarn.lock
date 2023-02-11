@@ -8286,11 +8286,6 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.npmmirror.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
 
-lodash@4.17.15:
-  version "4.17.15"
-  resolved "https://registry.npmmirror.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
-
 lodash@4.17.21, "lodash@4.6.1 || ^4.16.1", lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.npmmirror.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
@@ -8396,17 +8391,17 @@ magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
-mahjong-utils-entry@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/mahjong-utils-entry/-/mahjong-utils-entry-0.3.3.tgz#9504f6a59e2599aebc128d440af9523bea751f9d"
-  integrity sha512-eaShV+Ny4hRNudUFjsIYkNFGFtdZXXHG1Lfkvi+EM0/1145Jo0trO6VPKSuevg7arvyaJjB2Jx3gPUBwGttdsw==
+mahjong-utils-entry@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/mahjong-utils-entry/-/mahjong-utils-entry-0.4.0.tgz#89e44daa434dd105c118a744a76b8ed591663eee"
+  integrity sha512-laW+8dgnThLpFxnDJ8fnvaavkuOQ6333h75Km8iA63MezP8swbyv3NQswGGSnGPxVouUEnLbD4nWQ/VXr8xXzQ==
 
-mahjong-utils@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/mahjong-utils/-/mahjong-utils-0.3.3.tgz#851e67273cd14ea006c6aee9b28e974442b50392"
-  integrity sha512-/gxYjbMdZSemOdSEhC7N9MdWV/4YWXX1Aa3A2948RHzUufObv5AKhfx242IYbMCPcBkzCiIews8ZcBKsqa29Ew==
+mahjong-utils@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/mahjong-utils/-/mahjong-utils-0.4.0.tgz#75884c215ab11491435b3f9cab4fc6b768bc5077"
+  integrity sha512-yYDZRgRQbX4XNUAuWFs4cYgJfMCaxPBBKHthjWbTrbzcnbH2kYomLda79bnT0SRSu3P53gepCNP/AUSjZjkyaA==
   dependencies:
-    mahjong-utils-entry "^0.3.3"
+    mahjong-utils-entry "^0.4.0"
 
 make-dir@^1.0.0, make-dir@^1.2.0:
   version "1.3.0"

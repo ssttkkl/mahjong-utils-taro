@@ -23,7 +23,7 @@ const HoraView: React.FC<{
     return sorted
   }, [tiles, agari])
 
-  const isParent = hora.pattern.selfWind === hora.pattern.roundWind
+  const isParent = hora.pattern.selfWind === Wind.East
 
   let timesOfYakuman = 0
   if (hora.hasYakuman) {

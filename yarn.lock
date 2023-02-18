@@ -8392,9 +8392,9 @@ magic-string@^0.25.7:
     sourcemap-codec "^1.4.8"
 
 mahjong-utils-entry@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/mahjong-utils-entry/-/mahjong-utils-entry-0.4.0.tgz#89e44daa434dd105c118a744a76b8ed591663eee"
-  integrity sha512-laW+8dgnThLpFxnDJ8fnvaavkuOQ6333h75Km8iA63MezP8swbyv3NQswGGSnGPxVouUEnLbD4nWQ/VXr8xXzQ==
+  version "0.4.2"
+  resolved "https://registry.npmjs.org/mahjong-utils-entry/-/mahjong-utils-entry-0.4.2.tgz#87e93035a2db814a49cfabb7ec50248cc4a9f4ad"
+  integrity sha512-IGmE5qo9Q2ZcIaQqGTeYfUTpA+pw+E1FJzaKw5Rcy2zEFLNraQuVC6lBtb+r0EchpXpJTDBOB3geywogzwIvQA==
 
 mahjong-utils@^0.4.0:
   version "0.4.0"

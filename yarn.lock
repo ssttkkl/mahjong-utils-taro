@@ -8392,13 +8392,13 @@ magic-string@^0.25.7:
     sourcemap-codec "^1.4.8"
 
 mahjong-utils-entry@^0.4.0:
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/mahjong-utils-entry/-/mahjong-utils-entry-0.4.2.tgz#87e93035a2db814a49cfabb7ec50248cc4a9f4ad"
-  integrity sha512-IGmE5qo9Q2ZcIaQqGTeYfUTpA+pw+E1FJzaKw5Rcy2zEFLNraQuVC6lBtb+r0EchpXpJTDBOB3geywogzwIvQA==
+  version "0.4.3"
+  resolved "https://registry.npmmirror.com/mahjong-utils-entry/-/mahjong-utils-entry-0.4.3.tgz#034a1f4a502eb8462f5d08b722b552e3a53676f3"
+  integrity sha512-j6zEv+F07NNNTEyPHdiGrjQZgCHxeunYN2UzF+5asMzlWKOjEYweCrZp5EPgoCAJQYTqLecn+dDMsJ2rhsKbCg==
 
 mahjong-utils@^0.4.0:
   version "0.4.0"
-  resolved "https://registry.npmjs.org/mahjong-utils/-/mahjong-utils-0.4.0.tgz#75884c215ab11491435b3f9cab4fc6b768bc5077"
+  resolved "https://registry.npmmirror.com/mahjong-utils/-/mahjong-utils-0.4.0.tgz#75884c215ab11491435b3f9cab4fc6b768bc5077"
   integrity sha512-yYDZRgRQbX4XNUAuWFs4cYgJfMCaxPBBKHthjWbTrbzcnbH2kYomLda79bnT0SRSu3P53gepCNP/AUSjZjkyaA==
   dependencies:
     mahjong-utils-entry "^0.4.0"

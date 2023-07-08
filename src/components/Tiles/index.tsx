@@ -7,7 +7,7 @@ import './index.scss'
 export interface TilesProps extends ViewProps {
   tiles: (Tile | undefined)[]
   sorted?: boolean
-  size?: 'large' | 'normal' | 'small'
+  size?: 'large' | 'normal' | 'small' | 'tiny'
 }
 
 export const Tiles: React.FC<TilesProps> = (props) => {

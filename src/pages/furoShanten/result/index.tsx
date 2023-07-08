@@ -1,4 +1,4 @@
-import {Text, View} from "@tarojs/components"
+import { Text, View } from "@tarojs/components"
 import {
   furoChanceShanten,
   FuroChanceShantenResult,
@@ -7,14 +7,14 @@ import {
   Tatsu,
   Tile
 } from "mahjong-utils"
-import React, {useMemo, useState} from "react"
-import {useRouter} from "taro-hooks"
-import {Card} from "../../../components/Card"
-import {Tiles} from "../../../components/Tiles"
-import {ActionShanten, ActionShantenTable} from "../../../components/ActionShantenTable"
+import React, { useMemo, useState } from "react"
+import { useRouter } from "taro-hooks"
+import { Card } from "../../../components/Card"
+import { Tiles } from "../../../components/Tiles"
+import { ActionShanten, ActionShantenTable, ActionShantenTableType } from "../../../components/ActionShantenTable"
 import './index.scss'
-import {Panel} from "../../../components/Panel";
-import {buildSearchParams} from "../../../utils/searchParams";
+import { Panel } from "../../../components/Panel";
+import { buildSearchParams } from "../../../utils/searchParams";
 import ErrorMessage from "../../../components/ErrorMessage";
 
 function getShantenText(shantenNum: number): string {
@@ -32,7 +32,7 @@ const ShantenWithFuroChanceView: React.FC<{
   tiles: Tile[],
   chanceTile: Tile,
   shantenInfo: ShantenWithFuroChance
-}> = ({tiles, chanceTile, shantenInfo}) => {
+}> = ({ tiles, chanceTile, shantenInfo }) => {
   const orderedData = useMemo<[number, ActionShanten[]][]>(() => {
     const {
       pass,
@@ -42,21 +42,21 @@ const ShantenWithFuroChanceView: React.FC<{
     } = shantenInfo
     const groupedShanten = new Map<number, Map<['pass'] | ['minkan'] | ['pon', Tile] | ['chi', Tatsu, Tile], ShantenWithoutGot>>()
 
-    if (pass !== undefined) {
+    if (pass !== null) {
       if (!groupedShanten.has(pass.shantenNum)) {
         groupedShanten.set(pass.shantenNum, new Map())
       }
       groupedShanten.get(pass.shantenNum)?.set(['pass'], pass)
     }
 
-    if (minkan !== undefined) {
+    if (minkan !== null) {
       if (!groupedShanten.has(minkan.shantenNum)) {
         groupedShanten.set(minkan.shantenNum, new Map())
       }
       groupedShanten.get(minkan.shantenNum)?.set(['minkan'], minkan)
     }
 
-    if (pon !== undefined) {
+    if (pon !== null) {
       pon.discardToAdvance.forEach((shantenAfterPonDiscard, discard) => {
         if (!groupedShanten.has(shantenAfterPonDiscard.shantenNum)) {
           groupedShanten.set(shantenAfterPonDiscard.shantenNum, new Map())
@@ -82,7 +82,7 @@ const ShantenWithFuroChanceView: React.FC<{
       curGroup.sort((a, b) => {
         if (a[1].advanceNum !== b[1].advanceNum) {
           return a[1].advanceNum - b[1].advanceNum
-        } else if (a[1].goodShapeAdvanceNum !== undefined && b[1].goodShapeAdvanceNum !== undefined) {
+        } else if (a[1].goodShapeAdvanceNum !== null && b[1].goodShapeAdvanceNum !== null) {
           return a[1].goodShapeAdvanceNum - b[1].goodShapeAdvanceNum
         } else {
           return 0
@@ -111,9 +111,11 @@ const ShantenWithFuroChanceView: React.FC<{
           advanceNum: shantenAfterAction.advanceNum,
           goodShapeAdvance: shantenAfterAction.goodShapeAdvance,
           goodShapeAdvanceNum: shantenAfterAction.goodShapeAdvanceNum,
-          goodShapeRate: shantenAfterAction.goodShapeAdvanceNum !== undefined
+          goodShapeRate: shantenAfterAction.goodShapeAdvanceNum !== null
             ? shantenAfterAction.goodShapeAdvanceNum / shantenAfterAction.advanceNum
-            : undefined
+            : null,
+            goodShapeImprovement: shantenAfterAction.goodShapeImprovement,
+            goodShapeImprovementNum: shantenAfterAction.goodShapeImprovementNum
         }
       })
 
@@ -124,7 +126,7 @@ const ShantenWithFuroChanceView: React.FC<{
 
   return <>
     <Card title='手牌'
-      style={{marginTop: '16px'}}
+      style={{ marginTop: '16px' }}
     >
       <Tiles tiles={tiles} sorted />
       <View>
@@ -133,7 +135,7 @@ const ShantenWithFuroChanceView: React.FC<{
       </View>
     </Card>
     <Card title='向听数'
-      style={{marginTop: '16px'}}
+      style={{ marginTop: '16px' }}
     >
       {getShantenText(shantenInfo.shantenNum)}
     </Card>
@@ -143,22 +145,29 @@ const ShantenWithFuroChanceView: React.FC<{
         title += '（退向）'
       }
 
+      let type = ActionShantenTableType.standard
+      if (shantenNum === 1) {
+        type = ActionShantenTableType.withGoodShapeInfo
+      } else if (shantenNum === 0) {
+        type = ActionShantenTableType.withGoodShapeImprovementInfo
+      }
+
       return (
         <Panel title={title} key={shantenNum}>
           <ActionShantenTable
             data={data}
-            showGoodShapeInfo={shantenNum === 1}
-            style={{'margin': '0 12px'}}
+            type={type}
+            style={{ 'margin': '0 12px' }}
           />
         </Panel>
       )
     })}
-    <View style={{height: '16px'}} />
+    <View style={{ height: '16px' }} />
   </>
 }
 
 const FuroShantenResult: React.FC = () => {
-  const [{params}] = useRouter()
+  const [{ params }] = useRouter()
 
   const [error, setError] = useState<unknown>()
 
@@ -169,7 +178,7 @@ const FuroShantenResult: React.FC = () => {
       const allowChi = params.allowChi === 'true'
       if (tiles && chanceTile) {
         console.log('invoke furoChanceShanten')
-        const shantenResult = furoChanceShanten(tiles, chanceTile, {allowChi})
+        const shantenResult = furoChanceShanten(tiles, chanceTile, { allowChi })
         console.log("result", shantenResult)
         setError(undefined)
         return [tiles, chanceTile, shantenResult]

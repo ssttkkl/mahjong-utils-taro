@@ -1,21 +1,19 @@
 import { View } from "@tarojs/components"
 import {
-  AbstractCommonShantenInfo,
   regularShanten,
   shanten,
   ShantenWithGot,
   ShantenWithoutGot,
   Tile
 } from "mahjong-utils"
-import React, { useMemo, useState } from "react"
-import { useRouter } from "taro-hooks"
+import React, { useMemo } from "react"
 import { Card } from "../../../components/Card"
 import { Tiles } from "../../../components/Tiles"
 import { ActionShanten, ActionShantenTable, ActionShantenTableType } from "../../../components/ActionShantenTable"
 import './index.scss'
 import { Panel } from "../../../components/Panel";
 import { buildSearchParams } from "../../../utils/searchParams";
-import ErrorMessage from "../../../components/ErrorMessage";
+import Result, { ResultProps } from "../../../components/Result"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -178,50 +176,43 @@ const ShantenWithGotView: React.FC<{
 }
 
 const ShantenResult: React.FC = () => {
-  const [{ params }] = useRouter()
+  const calc: ResultProps['calc'] = (params) => {
+    const mode = params.mode ?? 'union'
+    const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
 
-  const [error, setError] = useState<unknown>()
+    let func: typeof shanten | typeof regularShanten = shanten
 
-  const result = useMemo<[Tile[], AbstractCommonShantenInfo] | undefined>(() => {
-    try {
-      const mode = params.mode ?? 'union'
-      const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
-
-      let func: typeof shanten | typeof regularShanten = shanten
-
-      switch (mode) {
-        case 'union':
-          func = shanten
-          break;
-        case 'regular':
-          func = regularShanten
-          break
-      }
-      if (tiles !== undefined) {
-        console.log(`invoke ${mode} shanten`)
-        const { shantenInfo } = func(tiles)
-        console.log("result", shantenInfo)
-        return [tiles, shantenInfo]
-      } else {
-        throw new Error("invalid params: " + buildSearchParams(params))
-      }
-    } catch (e) {
-      console.error(e)
-      setError(e)
-      return undefined
+    switch (mode) {
+      case 'union':
+        func = shanten
+        break;
+      case 'regular':
+        func = regularShanten
+        break
     }
-  }, [params])
-
-  if (result === undefined) {
-    return <ErrorMessage error={error} />
-  } else {
-    const [tiles, shantenInfo] = result
-    if (shantenInfo.type === "ShantenWithoutGot") {
-      return <ShantenWithoutGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
+    if (tiles !== undefined) {
+      console.log(`invoke ${mode} shanten`)
+      const { shantenInfo } = func(tiles)
+      console.log("result", shantenInfo)
+      return [tiles, shantenInfo]
     } else {
-      return <ShantenWithGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
+      throw new Error("invalid params: " + buildSearchParams(params))
     }
   }
+
+  return (
+    <Result
+      calc={calc}
+      render={(result) => {
+        const [tiles, shantenInfo] = result
+        if (shantenInfo.type === "ShantenWithoutGot") {
+          return <ShantenWithoutGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
+        } else {
+          return <ShantenWithGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
+        }
+      }}
+    />
+  )
 }
 
 export default ShantenResult

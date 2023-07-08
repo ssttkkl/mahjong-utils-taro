@@ -1,21 +1,18 @@
 import { Text, View } from "@tarojs/components"
 import {
   furoChanceShanten,
-  FuroChanceShantenResult,
   ShantenWithFuroChance,
   ShantenWithoutGot,
   Tatsu,
   Tile
 } from "mahjong-utils"
-import React, { useMemo, useState } from "react"
-import { useRouter } from "taro-hooks"
+import React, { useMemo } from "react"
 import { Card } from "../../../components/Card"
 import { Tiles } from "../../../components/Tiles"
 import { ActionShanten, ActionShantenTable, ActionShantenTableType } from "../../../components/ActionShantenTable"
-import './index.scss'
 import { Panel } from "../../../components/Panel";
 import { buildSearchParams } from "../../../utils/searchParams";
-import ErrorMessage from "../../../components/ErrorMessage";
+import Result, { ResultProps } from "../../../components/Result"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -114,8 +111,8 @@ const ShantenWithFuroChanceView: React.FC<{
           goodShapeRate: shantenAfterAction.goodShapeAdvanceNum !== null
             ? shantenAfterAction.goodShapeAdvanceNum / shantenAfterAction.advanceNum
             : null,
-            goodShapeImprovement: shantenAfterAction.goodShapeImprovement,
-            goodShapeImprovementNum: shantenAfterAction.goodShapeImprovementNum
+          goodShapeImprovement: shantenAfterAction.goodShapeImprovement,
+          goodShapeImprovementNum: shantenAfterAction.goodShapeImprovementNum
         }
       })
 
@@ -167,41 +164,33 @@ const ShantenWithFuroChanceView: React.FC<{
 }
 
 const FuroShantenResult: React.FC = () => {
-  const [{ params }] = useRouter()
-
-  const [error, setError] = useState<unknown>()
-
-  const result = useMemo<[Tile[], Tile, FuroChanceShantenResult] | undefined>(() => {
-    try {
-      const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
-      const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined
-      const allowChi = params.allowChi === 'true'
-      if (tiles && chanceTile) {
-        console.log('invoke furoChanceShanten')
-        const shantenResult = furoChanceShanten(tiles, chanceTile, { allowChi })
-        console.log("result", shantenResult)
-        setError(undefined)
-        return [tiles, chanceTile, shantenResult]
-      } else {
-        throw new Error("invalid params: " + buildSearchParams(params))
-      }
-    } catch (e) {
-      console.error(e)
-      setError(e)
-      return undefined
+  const calc: ResultProps['calc'] = (params) => {
+    const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
+    const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined
+    const allowChi = params.allowChi === 'true'
+    if (tiles && chanceTile) {
+      console.log('invoke furoChanceShanten')
+      const shantenResult = furoChanceShanten(tiles, chanceTile, { allowChi })
+      console.log("result", shantenResult)
+      return [tiles, chanceTile, shantenResult]
+    } else {
+      throw new Error("invalid params: " + buildSearchParams(params))
     }
-  }, [params])
-
-  if (result === undefined) {
-    return <ErrorMessage error={error} />
-  } else {
-    const [tiles, chanceTile, shantenResult] = result
-    return <ShantenWithFuroChanceView
-      tiles={tiles}
-      chanceTile={chanceTile}
-      shantenInfo={shantenResult.shantenInfo}
-    />
   }
+  
+  return (
+    <Result
+      calc={calc}
+      render={(result) => {
+        const [tiles, chanceTile, shantenResult] = result
+        return <ShantenWithFuroChanceView
+          tiles={tiles}
+          chanceTile={chanceTile}
+          shantenInfo={shantenResult.shantenInfo}
+        />
+      }}
+    />
+  )
 }
 
 export default FuroShantenResult

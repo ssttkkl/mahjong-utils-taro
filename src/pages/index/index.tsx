@@ -1,13 +1,12 @@
 import React from "react";
-import {View} from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import {AtGrid} from 'taro-ui'
+import { AtGrid } from 'taro-ui'
+import Page from "../../components/Page";
 
 import icon1 from '../../assets/images/icons/icon1.svg'
 import icon2 from '../../assets/images/icons/icon2.svg'
 import icon3 from '../../assets/images/icons/icon3.svg'
 import icon4 from '../../assets/images/icons/icon4.svg'
-
 import './index.scss'
 
 const Index: React.FC = () => {
@@ -56,9 +55,9 @@ const Index: React.FC = () => {
   }
 
   return (
-    <View className='index'>
+    <Page title="首页">
       <AtGrid data={gridData} onClick={onClick} columnNum={2} />
-    </View>
+    </Page>
   )
 }
 

@@ -13,6 +13,7 @@ import { ActionShanten, ActionShantenTable, ActionShantenTableType } from "../..
 import { Panel } from "../../../components/Panel";
 import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result"
+import Page from "../../../components/Page"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -177,19 +178,21 @@ const FuroShantenResult: React.FC = () => {
       throw new Error("invalid params: " + buildSearchParams(params))
     }
   }
-  
+
   return (
-    <Result
-      calc={calc}
-      render={(result) => {
-        const [tiles, chanceTile, shantenResult] = result
-        return <ShantenWithFuroChanceView
-          tiles={tiles}
-          chanceTile={chanceTile}
-          shantenInfo={shantenResult.shantenInfo}
-        />
-      }}
-    />
+    <Page title="计算结果">
+      <Result
+        calc={calc}
+        render={(result) => {
+          const [tiles, chanceTile, shantenResult] = result
+          return <ShantenWithFuroChanceView
+            tiles={tiles}
+            chanceTile={chanceTile}
+            shantenInfo={shantenResult.shantenInfo}
+          />
+        }}
+      />
+    </Page>
   )
 }
 

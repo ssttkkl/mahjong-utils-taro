@@ -14,6 +14,7 @@ import './index.scss'
 import { Panel } from "../../../components/Panel";
 import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result"
+import Page from "../../../components/Page"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -201,17 +202,19 @@ const ShantenResult: React.FC = () => {
   }
 
   return (
-    <Result
-      calc={calc}
-      render={(result) => {
-        const [tiles, shantenInfo] = result
-        if (shantenInfo.type === "ShantenWithoutGot") {
-          return <ShantenWithoutGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
-        } else {
-          return <ShantenWithGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
-        }
-      }}
-    />
+    <Page title="计算结果">
+      <Result
+        calc={calc}
+        render={(result) => {
+          const [tiles, shantenInfo] = result
+          if (shantenInfo.type === "ShantenWithoutGot") {
+            return <ShantenWithoutGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
+          } else {
+            return <ShantenWithGotView tiles={tiles ?? []} shantenInfo={shantenInfo} />
+          }
+        }}
+      />
+    </Page>
   )
 }
 

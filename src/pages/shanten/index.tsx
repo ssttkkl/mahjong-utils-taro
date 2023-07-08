@@ -1,8 +1,8 @@
-import {View} from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import React from "react"
-import {buildSearchParams} from "../../utils/searchParams"
-import {ShantenForm, ShantenFormValues} from "./form"
+import Page from "../../components/Page"
+import { buildSearchParams } from "../../utils/searchParams"
+import { ShantenForm, ShantenFormValues } from "./form"
 import './index.scss'
 
 const ShantenPage: React.FC = () => {
@@ -13,9 +13,9 @@ const ShantenPage: React.FC = () => {
     }
 
     return (
-        <View className='index'>
+        <Page title="向听计算&牌理">
             <ShantenForm onSubmit={onSubmit} />
-        </View>
+        </Page>
     )
 }
 

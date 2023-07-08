@@ -1,9 +1,10 @@
-import React, {useState} from "react";
-import {View} from "@tarojs/components";
-import {getChildPointByHanHu, getParentPointByHanHu} from "mahjong-utils";
-import {useToast} from "taro-hooks";
-import {PointByHanHuForm, PointByHanHuFormValues} from "./form";
+import React, { useState } from "react";
+import { View } from "@tarojs/components";
+import { getChildPointByHanHu, getParentPointByHanHu } from "mahjong-utils";
+import { useToast } from "taro-hooks";
+import { PointByHanHuForm, PointByHanHuFormValues } from "./form";
 import PointByHanHuResult from "./result";
+import Page from "../../components/Page";
 
 const PointByHanHuPage: React.FC = () => {
   const [showToast] = useToast()
@@ -39,11 +40,11 @@ const PointByHanHuPage: React.FC = () => {
   }
 
   return (
-    <View className='index'>
+    <Page title="番符算点">
       <PointByHanHuForm onSubmit={onSubmit} />
-      <View style={{height:'16px'}} />
+      <View style={{ height: '16px' }} />
       <PointByHanHuResult parent={parentResult} child={childResult} />
-    </View>
+    </Page>
   )
 }
 

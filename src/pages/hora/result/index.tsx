@@ -9,6 +9,7 @@ import PointByHanHuResult from "../../pointByHanHu/result";
 import './index.scss'
 import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result";
+import Page from "../../../components/Page";
 
 const HoraView: React.FC<{
   tiles: Tile[],
@@ -145,13 +146,15 @@ const HoraResult: React.FC = () => {
   }
 
   return (
-    <Result
-      calc={calc}
-      render={(result) => {
-        const [tiles, agari, hora] = result
-        return <HoraView tiles={tiles} agari={agari} hora={hora} />
-      }}
-    />
+    <Page title="计算结果">
+      <Result
+        calc={calc}
+        render={(result) => {
+          const [tiles, agari, hora] = result
+          return <HoraView tiles={tiles} agari={agari} hora={hora} />
+        }}
+      />
+    </Page>
   )
 }
 

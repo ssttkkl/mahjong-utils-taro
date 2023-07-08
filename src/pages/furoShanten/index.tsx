@@ -1,8 +1,8 @@
-import {View} from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import React from "react"
-import {buildSearchParams} from "../../utils/searchParams"
-import {FuroShantenForm} from "./form"
+import Page from "../../components/Page"
+import { buildSearchParams } from "../../utils/searchParams"
+import { FuroShantenForm } from "./form"
 import './index.scss'
 
 const FuroShantenPage: React.FC = () => {
@@ -13,9 +13,9 @@ const FuroShantenPage: React.FC = () => {
     }
 
     return (
-        <View className='index'>
+        <Page title="副露牌理">
             <FuroShantenForm onSubmit={onSubmit} />
-        </View>
+        </Page>
     )
 }
 

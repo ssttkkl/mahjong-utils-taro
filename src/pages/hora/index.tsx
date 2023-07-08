@@ -1,9 +1,9 @@
 import React from "react";
 import Taro from "@tarojs/taro";
-import {View} from "@tarojs/components";
-import {buildSearchParams} from "../../utils/searchParams";
-import {HoraForm} from "./form";
+import { buildSearchParams } from "../../utils/searchParams";
+import { HoraForm } from "./form";
 import './index.scss'
+import Page from "../../components/Page";
 
 const HoraPage: React.FC = () => {
   async function onSubmit(values) {
@@ -13,9 +13,9 @@ const HoraPage: React.FC = () => {
   }
 
   return (
-    <View className='index'>
+    <Page title="和牌分析">
       <HoraForm onSubmit={onSubmit} />
-    </View>
+    </Page>
   )
 }
 

@@ -12,6 +12,7 @@ import Result, { ResultProps } from "../../../components/Result";
 import Page from "../../../components/Page";
 import { ResultPageAd } from "../../../components/Ad/ResultPageAd";
 import Spacer from "../../../components/Spacer";
+import { useSharePage } from "../../../components/Share";
 
 const HoraView: React.FC<{
   tiles: Tile[],
@@ -126,6 +127,8 @@ const HoraView: React.FC<{
 }
 
 const HoraResult: React.FC = () => {
+  useSharePage({title: '计算结果'});
+  
   const calc: ResultProps['calc'] = (params) => {
     const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
     const agari = params.agari ? Tile.byText(params.agari) : undefined

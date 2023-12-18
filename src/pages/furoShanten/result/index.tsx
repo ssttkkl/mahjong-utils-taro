@@ -16,6 +16,7 @@ import Result, { ResultProps } from "../../../components/Result"
 import Page from "../../../components/Page"
 import { ResultPageAd } from "../../../components/Ad/ResultPageAd"
 import Spacer from "../../../components/Spacer"
+import { useSharePage } from "../../../components/Share"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -176,6 +177,8 @@ const ShantenWithFuroChanceView: React.FC<{
 }
 
 const FuroShantenResult: React.FC = () => {
+  useSharePage({title: '计算结果'});
+
   const calc: ResultProps['calc'] = (params) => {
     const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
     const chanceTile = params.chanceTile ? Tile.byText(params.chanceTile) : undefined

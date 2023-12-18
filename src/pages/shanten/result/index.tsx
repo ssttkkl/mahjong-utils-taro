@@ -17,6 +17,7 @@ import Result, { ResultProps } from "../../../components/Result"
 import Page from "../../../components/Page"
 import { ResultPageAd } from "../../../components/Ad/ResultPageAd"
 import Spacer from "../../../components/Spacer"
+import { useSharePage } from "../../../components/Share"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -189,6 +190,8 @@ const ShantenWithGotView: React.FC<{
 }
 
 const ShantenResult: React.FC = () => {
+  useSharePage({title: '计算结果'});
+
   const calc: ResultProps['calc'] = (params) => {
     const mode = params.mode ?? 'union'
     const tiles = params.tiles ? Tile.parseTiles(params.tiles) : undefined
@@ -212,7 +215,7 @@ const ShantenResult: React.FC = () => {
       throw new Error("invalid params: " + buildSearchParams(params))
     }
   }
-
+  
   return (
     <Page title='计算结果'>
       <Result

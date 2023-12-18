@@ -10,6 +10,7 @@ import './index.scss'
 import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result";
 import Page from "../../../components/Page";
+import { ResultPageAd } from "../../../components/Ad/ResultPageAd";
 
 const HoraView: React.FC<{
   tiles: Tile[],
@@ -100,6 +101,9 @@ const HoraView: React.FC<{
       </Card>
     })()
       : null}
+
+    <ResultPageAd />
+      
     <Card title='和牌分析'
       style={{ marginTop: '16px' }}
     >
@@ -146,7 +150,7 @@ const HoraResult: React.FC = () => {
   }
 
   return (
-    <Page title="计算结果">
+    <Page title='计算结果'>
       <Result
         calc={calc}
         render={(result) => {

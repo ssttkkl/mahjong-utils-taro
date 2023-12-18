@@ -13,7 +13,7 @@ const ShantenPage: React.FC = () => {
     }
 
     return (
-        <Page title="向听计算&牌理">
+        <Page title='向听计算&牌理'>
             <ShantenForm onSubmit={onSubmit} />
         </Page>
     )

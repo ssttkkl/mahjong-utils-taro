@@ -15,6 +15,7 @@ import { Panel } from "../../../components/Panel";
 import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result"
 import Page from "../../../components/Page"
+import { ResultPageAd } from "../../../components/Ad/ResultPageAd"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -49,6 +50,9 @@ const ShantenWithoutGotView: React.FC<{
     >
       <Tiles tiles={shantenInfo.advance} sorted />
     </Card>
+
+    <ResultPageAd />
+
     {shantenInfo.goodShapeAdvance !== null && shantenInfo.goodShapeAdvanceNum !== null
       ? <>
         <Card title='好型进张'
@@ -149,6 +153,9 @@ const ShantenWithGotView: React.FC<{
     >
       {getShantenText(shantenInfo.shantenNum)}
     </Card>
+
+    <ResultPageAd />
+
     {orderedData.map(([shantenNum, data]) => {
       let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`
       if (shantenNum !== shantenInfo.shantenNum) {
@@ -202,7 +209,7 @@ const ShantenResult: React.FC = () => {
   }
 
   return (
-    <Page title="计算结果">
+    <Page title='计算结果'>
       <Result
         calc={calc}
         render={(result) => {

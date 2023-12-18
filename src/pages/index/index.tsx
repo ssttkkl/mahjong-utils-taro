@@ -8,6 +8,7 @@ import icon2 from '../../assets/images/icons/icon2.svg'
 import icon3 from '../../assets/images/icons/icon3.svg'
 import icon4 from '../../assets/images/icons/icon4.svg'
 import './index.scss'
+import { BannerAd } from "../../components/Ad/BannerAd";
 
 const Index: React.FC = () => {
   const gridData = [
@@ -55,8 +56,9 @@ const Index: React.FC = () => {
   }
 
   return (
-    <Page title="首页">
-      <AtGrid data={gridData} onClick={onClick} columnNum={2} />
+    <Page title='首页'>
+        <AtGrid data={gridData} onClick={onClick} columnNum={2} />
+        <BannerAd />
     </Page>
   )
 }

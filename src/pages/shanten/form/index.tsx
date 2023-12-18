@@ -6,6 +6,7 @@ import './index.scss'
 import {Panel} from "../../../components/Panel"
 import {TilesInput} from "../../../components/TilesInput";
 import { validateNumOfTiles } from "../../../utils/tiles";
+import { BannerAd } from "../../../components/Ad/BannerAd";
 
 export type ShantenMode = 'union' | 'regular' | 'chitoi' | 'kokushi'
 
@@ -93,6 +94,7 @@ export const ShantenForm: React.FC<{
         />
       </Panel>
       <AtButton formType='submit' type='primary'>计算</AtButton>
+      <BannerAd />
     </AtForm>
   )
 }

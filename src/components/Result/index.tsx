@@ -18,22 +18,22 @@ const Result: React.FC<ResultProps> = (props) => {
     useEffect(() => {
         setTimeout(() => {
             try {
-                const result = props.calc(params)
+                const calcResult = props.calc(params)
                 setError(null)
-                setResult(result)
+                setResult(calcResult)
             } catch (e) {
                 console.error(e)
                 setError(e)
                 setResult(null)
             }
         })
-    }, [params])
+    }, [props, params])
 
     if (result === null) {
         if (error) {
             return <ErrorMessage error={error} />
         } else {
-            return <AtActivityIndicator mode='center' size={48} content="计算中……" />
+            return <AtActivityIndicator mode='center' size={48} content='计算中……' />
         }
     } else {
         return <>

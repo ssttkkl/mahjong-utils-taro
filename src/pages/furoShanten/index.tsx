@@ -13,7 +13,7 @@ const FuroShantenPage: React.FC = () => {
     }
 
     return (
-        <Page title="副露牌理">
+        <Page title='副露牌理'>
             <FuroShantenForm onSubmit={onSubmit} />
         </Page>
     )

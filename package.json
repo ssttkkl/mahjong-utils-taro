@@ -15,7 +15,7 @@
 		"dev:weapp": "npm run build:weapp -- --watch",
 		"dev:h5": "npm run build:h5 -- --watch",
 		"dev:rn": "npm run build:rn -- --watch",
-		"lint": "eslint src/{**/*,*}.{js,ts,jsx,tsx} --fix"
+		"lint": "eslint src/**/*.{ts,tsx} --fix"
 	},
 	"browserslist": [
 		"last 3 versions",

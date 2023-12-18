@@ -9,6 +9,7 @@ import {Panel} from "../../../components/Panel";
 import {extraYakuForRon, extraYakuForTsumo, yakuName} from "../../../utils/yaku";
 import {TilesInput} from "../../../components/TilesInput";
 import {validateNumOfTiles} from "../../../utils/tiles";
+import { BannerAd } from "../../../components/Ad/BannerAd";
 
 export interface HoraFormValues {
   tiles: string
@@ -303,6 +304,7 @@ export const HoraForm: React.FC<{
         />
       </Panel>
       <AtButton formType='submit' type='primary'>计算</AtButton>
+      <BannerAd />
     </AtForm>
   )
 }

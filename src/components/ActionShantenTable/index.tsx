@@ -128,8 +128,8 @@ const columnsWithImprovementInfo = [
 
         return (
           <View style={{ flexDirection: 'column' }}>
-            {impEntires.map((imp) => (
-              <View className="imp-line">
+            {impEntires.map((imp, i) => (
+              <View key={i} className='imp-line'>
                 <Tiles size='small' tiles={[imp.tile]} />
                 <Text>（打</Text>
                 <Tiles size='tiny' tiles={imp.discard} />

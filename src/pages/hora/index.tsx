@@ -13,7 +13,7 @@ const HoraPage: React.FC = () => {
   }
 
   return (
-    <Page title="和牌分析">
+    <Page title='和牌分析'>
       <HoraForm onSubmit={onSubmit} />
     </Page>
   )

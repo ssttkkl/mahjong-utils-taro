@@ -15,10 +15,10 @@ const Page: React.FC<PageProps> = ({ title, children }) => {
     return (
         <View>
             <AtNavBar
-                title={title}
-                color='#000'
-                leftIconType={stackLength > 1 ? 'chevron-left' : undefined}
-                onClickLeftIcon={stackLength > 1 ? () => { Taro.navigateBack() } : undefined}
+              title={title}
+              color='#000'
+              leftIconType={stackLength > 1 ? 'chevron-left' : undefined}
+              onClickLeftIcon={stackLength > 1 ? () => { Taro.navigateBack() } : undefined}
             >
             </AtNavBar>
             {children}

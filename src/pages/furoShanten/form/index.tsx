@@ -6,6 +6,7 @@ import './index.scss'
 import {TilesInput} from "../../../components/TilesInput";
 import { validateNumOfTiles } from "../../../utils/tiles";
 import { BannerAd } from "../../../components/Ad/BannerAd";
+import Spacer from "../../../components/Spacer";
 
 export interface FuroShantenFormValues {
   tiles: string
@@ -105,7 +106,10 @@ export const FuroShantenForm: React.FC<{
         onChange={v => setAllowChi(v)}
       />
       <AtButton formType='submit' type='primary'>提交</AtButton>
+      
+      <Spacer size='16px' />
       <BannerAd />
+      <Spacer size='32px' />
     </AtForm>
   )
 }

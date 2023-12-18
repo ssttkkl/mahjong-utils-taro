@@ -11,6 +11,7 @@ import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result";
 import Page from "../../../components/Page";
 import { ResultPageAd } from "../../../components/Ad/ResultPageAd";
+import Spacer from "../../../components/Spacer";
 
 const HoraView: React.FC<{
   tiles: Tile[],
@@ -102,7 +103,9 @@ const HoraView: React.FC<{
     })()
       : null}
 
+    <Spacer size='16px' />
     <ResultPageAd />
+    <Spacer size='16px' />
       
     <Card title='和牌分析'
       style={{ marginTop: '16px' }}

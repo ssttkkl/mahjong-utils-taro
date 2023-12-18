@@ -5,6 +5,7 @@ import { PointByHanHuForm, PointByHanHuFormValues } from "./form";
 import PointByHanHuResult from "./result";
 import Page from "../../components/Page";
 import { BannerAd } from "../../components/Ad/BannerAd";
+import Spacer from "../../components/Spacer";
 
 const PointByHanHuPage: React.FC = () => {
   const [showToast] = useToast()
@@ -43,7 +44,9 @@ const PointByHanHuPage: React.FC = () => {
     <Page title='番符算点'>
       <PointByHanHuForm onSubmit={onSubmit} />
 
+      <Spacer size='16px' />
       <BannerAd />
+      <Spacer size='32px' />
       
       <PointByHanHuResult parent={parentResult} child={childResult} />
     </Page>

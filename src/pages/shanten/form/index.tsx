@@ -7,6 +7,7 @@ import {Panel} from "../../../components/Panel"
 import {TilesInput} from "../../../components/TilesInput";
 import { validateNumOfTiles } from "../../../utils/tiles";
 import { BannerAd } from "../../../components/Ad/BannerAd";
+import Spacer from "../../../components/Spacer";
 
 export type ShantenMode = 'union' | 'regular' | 'chitoi' | 'kokushi'
 
@@ -94,7 +95,10 @@ export const ShantenForm: React.FC<{
         />
       </Panel>
       <AtButton formType='submit' type='primary'>计算</AtButton>
+      
+      <Spacer size='16px' />
       <BannerAd />
+      <Spacer size='32px' />
     </AtForm>
   )
 }

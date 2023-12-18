@@ -9,6 +9,7 @@ import icon3 from '../../assets/images/icons/icon3.svg'
 import icon4 from '../../assets/images/icons/icon4.svg'
 import './index.scss'
 import { BannerAd } from "../../components/Ad/BannerAd";
+import Spacer from "../../components/Spacer";
 
 const Index: React.FC = () => {
   const gridData = [
@@ -58,7 +59,9 @@ const Index: React.FC = () => {
   return (
     <Page title='首页'>
         <AtGrid data={gridData} onClick={onClick} columnNum={2} />
+        <Spacer size='16px' />
         <BannerAd />
+        <Spacer size='32px' />
     </Page>
   )
 }

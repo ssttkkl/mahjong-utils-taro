@@ -16,6 +16,7 @@ import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result"
 import Page from "../../../components/Page"
 import { ResultPageAd } from "../../../components/Ad/ResultPageAd"
+import Spacer from "../../../components/Spacer"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -44,14 +45,17 @@ const ShantenWithoutGotView: React.FC<{
     >
       {getShantenText(shantenInfo.shantenNum)}
     </Card>
+
+    <Spacer size='16dp' />
+    <ResultPageAd />
+    <Spacer size='16dp' />
+
     <Card title='进张'
       note={`共${shantenInfo.advanceNum}张`}
       style={{ marginTop: '16px' }}
     >
       <Tiles tiles={shantenInfo.advance} sorted />
     </Card>
-
-    <ResultPageAd />
 
     {shantenInfo.goodShapeAdvance !== null && shantenInfo.goodShapeAdvanceNum !== null
       ? <>
@@ -68,7 +72,6 @@ const ShantenWithoutGotView: React.FC<{
         </Card>
       </>
       : null}
-    <View style={{ height: '16px' }} />
   </>
 }
 
@@ -154,7 +157,9 @@ const ShantenWithGotView: React.FC<{
       {getShantenText(shantenInfo.shantenNum)}
     </Card>
 
+    <Spacer size='16dp' />
     <ResultPageAd />
+    <Spacer size='16dp' />
 
     {orderedData.map(([shantenNum, data]) => {
       let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`

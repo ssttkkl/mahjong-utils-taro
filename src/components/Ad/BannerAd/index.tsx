@@ -1,9 +1,11 @@
-import { Ad, View } from "@tarojs/components";
+import { Ad, View, ViewProps } from "@tarojs/components";
 
-export const BannerAd = () => (
-    <View style={{ marginTop: '16px', marginBottom: '16px' }}>
-        <Ad 
-          unitId='adunit-a7d29c24217bbe33'
-        />
-    </View>
-)
+export const BannerAd: React.FC<ViewProps> = (props) => {
+    return (
+        <View {...props}>
+            <Ad 
+              unitId='adunit-a7d29c24217bbe33'
+            />
+        </View>
+    )
+}

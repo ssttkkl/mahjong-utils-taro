@@ -15,6 +15,7 @@ import { buildSearchParams } from "../../../utils/searchParams";
 import Result, { ResultProps } from "../../../components/Result"
 import Page from "../../../components/Page"
 import { ResultPageAd } from "../../../components/Ad/ResultPageAd"
+import Spacer from "../../../components/Spacer"
 
 function getShantenText(shantenNum: number): string {
   switch (shantenNum) {
@@ -124,22 +125,27 @@ const ShantenWithFuroChanceView: React.FC<{
 
 
   return <>
-    <Card title='手牌'
-      style={{ marginTop: '16px' }}
-    >
+    <Spacer size='16px' />
+
+    <Card title='手牌'>
       <Tiles tiles={tiles} sorted />
       <View>
         <Text>他家打</Text>
         <Tiles tiles={[chanceTile]} />
       </View>
     </Card>
-    <Card title='向听数'
-      style={{ marginTop: '16px' }}
-    >
+
+    <Spacer size='16px' />
+
+    <Card title='向听数'>
       {getShantenText(shantenInfo.shantenNum)}
     </Card>
 
+    <Spacer size='16px' />
+
     <ResultPageAd />
+
+    <Spacer size='16px' />
     
     {orderedData.map(([shantenNum, data]) => {
       let title = shantenNum === 0 ? '听牌打法' : `${shantenNum}向听打法`
@@ -164,7 +170,8 @@ const ShantenWithFuroChanceView: React.FC<{
         </Panel>
       )
     })}
-    <View style={{ height: '16px' }} />
+
+    <Spacer size='16px' />
   </>
 }
 
